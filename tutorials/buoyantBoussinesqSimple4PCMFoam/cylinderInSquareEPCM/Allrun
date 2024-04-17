@@ -1,0 +1,46 @@
+#!/bin/sh
+cd ${0%/*} || exit 1    # run from this directory
+
+#------------------------------- PCM4Foam project -------------------------------#
+#Author
+    #Ehsan Golab, SUT. All rights reserved.
+    #Ehsan1996Golab@gmail.com
+
+#--------------------------------------------------------------------------------------#
+
+# Source tutorial run functions
+. $WM_PROJECT_DIR/bin/tools/RunFunctions
+
+# cleancase is function that removes the files and directories.(rm -f : remove the file, rm -r : remove the directory).
+cleancase ()
+{
+    rm -r Gnu*
+    rm -r processor*
+}
+
+# (getApplication) is an command to find the solver name from the controlDict file. Also, ($) use for the variable.
+application=$(getApplication)
+
+#cleancase
+
+
+echo run blockMesh ...
+m4 -P constant/polyMesh/blockMeshDictTrapezoid.m4 > constant/polyMesh/blockMeshDict
+blockMesh
+surfaceTransformPoints constant/triSurface/cylinderOrg.stl constant/triSurface/cylinderSc.stl -scale '(0.2 0.2 0.5)'
+surfaceTransformPoints constant/triSurface/cylinderSc.stl constant/triSurface/cylinder.stl -translate '(0.5 0.5 -0.25)'
+#surfaceFeatureEdges constant/triSurface/cylinder.stl cylinder.fms
+snappyHexMesh -overwrite
+createPatch -overwrite
+
+
+echo run solver ...
+$application
+buoyantBoussinesqSimple4PCMFoam
+# -------------------------------------------------------------------------- end-of-file
+
+
+
+
+
+

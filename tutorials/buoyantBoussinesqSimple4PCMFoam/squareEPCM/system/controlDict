@@ -1,0 +1,114 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | foam-extend: Open Source CFD                    |
+|  \\    /   O peration     | Version:     4.1                                |
+|   \\  /    A nd           | Web:         http://www.foam-extend.org         |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "system";
+    object      controlDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+libs
+(
+    "liblduSolvers.so"
+    "libPCM4Foam.so"
+)
+
+application     buoyantBoussinesqSimple4PCMFoam;
+
+startFrom       latestTime;
+
+startTime       0;
+
+stopAt          endTime;
+
+endTime         1e4;
+
+deltaT          0.01;
+
+writeControl    timeStep;
+
+writeInterval   100;
+
+purgeWrite      3;
+
+writeFormat     ascii;
+
+writePrecision  6;
+
+writeCompression compressed;
+
+timeFormat      general;
+
+timePrecision   6;
+
+runTimeModifiable yes;
+
+InfoSwitches
+{
+    writePrecision  6;
+    writeJobInfo    0;
+    allowSystemOperations 1;
+}
+
+functions
+{
+    postProcess
+    {
+        functionObjectLibs	("libutilityFunctionObjects.so");
+        type			coded;
+        enabled			true;
+        outputControl		outputTime;
+        redirectType		postProcess;
+
+        code
+        #{
+            std::ofstream output;
+            output.open("postProcess.txt",std::ofstream::app);
+
+            //- dimensionless numbers
+            scalar rhobf = 996.5;
+            scalar Cpbf = 4181.0;
+            scalar kappabf = 0.628;
+            scalar mubf = 8.5e-4;
+            scalar betabf = 2.1e-4;
+            scalar nubf = mubf/rhobf;
+            scalar alphabf = kappabf/(rhobf*Cpbf);
+            scalar deltaTemp = 10.0;
+            scalar charL = 1.0;
+            scalar g = 6.13e-5;//Ra=1e6
+
+            scalar Prbf = nubf/alphabf;
+            scalar Grbf = (g*betabf*deltaTemp*pow(charL,3)) / (pow(nubf,2));
+            scalar Rabf = (g*betabf*deltaTemp*pow(charL,3)) / (nubf*alphabf);
+
+
+            //- lookup fields
+            const volScalarField& T = mesh().lookupObject<volScalarField>("T");
+            const volScalarField& kappaEff = mesh().lookupObject<volScalarField>("kappaEff");
+            surfaceScalarField gradT = fvc::snGrad(T);
+
+            //- find id and compute Nusselt number
+            label leftID = T.mesh().boundaryMesh().findPatchID("left");
+            scalar leftArea = sum(T.mesh().magSf().boundaryField()[leftID]);
+            scalar leftHeatFluxAvg = sum(kappaEff.boundaryField()[leftID]*gradT.boundaryField()[leftID]*T.mesh().magSf().boundaryField()[leftID])/leftArea;
+            scalar lefthAvg = leftHeatFluxAvg/deltaTemp;
+            scalar NusseltAvg = (lefthAvg*charL)/(kappabf);
+
+
+            //- save data
+            output << "Rabf: " << Rabf << "\n";
+            output << "Nusselt: " << NusseltAvg << "\n";
+            output.close();
+        #};
+    }
+
+}
+// ************************************************************************* //

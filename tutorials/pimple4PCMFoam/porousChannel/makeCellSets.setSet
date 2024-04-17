@@ -1,0 +1,4 @@
+cellSet porousBox new boxToCell (0.1 0.0 -0.005) (0.3 0.05 0.005)
+cellSet channel clear
+cellSet channel add cellToCell porousBox
+cellSet channel invert
