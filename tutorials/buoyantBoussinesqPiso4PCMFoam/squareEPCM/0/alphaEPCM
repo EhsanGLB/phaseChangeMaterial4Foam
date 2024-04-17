@@ -1,0 +1,61 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | foam-extend: Open Source CFD                    |
+|  \\    /   O peration     | Version:     4.1                                |
+|   \\  /    A nd           | Web:         http://www.foam-extend.org         |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volScalarField;
+    location    "0";
+    object      alphaEPCM;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions		[0 0 0 0 0 0 0];
+
+internalField		uniform 0.03;
+
+boundaryField
+{
+    left
+    {
+        type		buongiorno4PCMFoam;
+        alpha		alphaEPCM;
+        jo	        (0.0);
+        ho		(0.0);
+        alphao		(0.0);
+        DB		1e-13;
+        DT		1e-13;
+    }
+
+    right
+    {
+        type		buongiorno4PCMFoam;
+        alpha		alphaEPCM;
+        jo	        (0.0);
+        ho		(0.0);
+        alphao		(0.0);
+        DB		1e-13;
+        DT		1e-13;
+    }
+
+    top
+    {
+        type            zeroGradient;
+    }
+
+    bottom
+    {
+        type            zeroGradient;
+    }
+
+    frontAndBack
+    {
+        type            empty;
+    }
+}
+// ************************************************************************* //

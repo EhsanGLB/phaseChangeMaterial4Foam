@@ -1,0 +1,46 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | foam-extend: Open Source CFD                    |
+|  \\    /   O peration     | Version:     4.1                                |
+|   \\  /    A nd           | Web:         http://www.foam-extend.org         |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "constant";
+    object      porousZones;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+1
+(
+    porousBox
+    {
+        /*coordinateSystem
+        {
+            e1  (0 0 0);
+            e2  (1 1 0);
+        }*/
+
+        porosity    0.9;
+
+        Darcy
+        {
+            d   d [0 -2 0 0 0 0 0] (1e8 1e8 1e8);
+            f   f [0 -1 0 0 0 0 0] (0 0 0);
+        }
+
+        thermalProperties
+        {
+            rho		rho [1 -3 0 0 0 0 0]		8933;
+            Cp		Cp [0 2 -2 -1 0 0 0]		385;
+            kappa	kappa [ 1 1 -3 -1 0 0 0 ]	401;
+        }
+    }
+)
+
+
+// ************************************************************************* //
