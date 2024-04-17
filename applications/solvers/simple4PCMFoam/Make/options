@@ -1,0 +1,22 @@
+EXE_INC = \
+    -I$(LIB_SRC)/finiteVolume/lnInclude \
+    -I$(LIB_SRC)/thermophysicalModels/basic/lnInclude \
+    -I$(LIB_SRC)/transportModels \
+    -I$(LIB_SRC)/transportModels/incompressible/singlePhaseTransportModel \
+    -I$(LIB_SRC)/turbulenceModels/incompressible/turbulenceModel \
+    -I$(LIB_SRC)/thermophysicalModels/radiation/lnInclude \
+    -I$(WM_PROJECT_USER_DIR)/src/PCM4Foam/lnInclude
+
+
+EXE_LIBS = \
+    -lfiniteVolume \
+    -lmeshTools \
+    -llduSolvers \
+    -lbasicThermophysicalModels \
+    -lincompressibleTransportModels \
+    -lincompressibleTurbulenceModel \
+    -lincompressibleRASModels \
+    -lincompressibleLESModels \
+    -lradiation \
+    -L$(FOAM_USER_LIBBIN) \
+    -lPCM4Foam

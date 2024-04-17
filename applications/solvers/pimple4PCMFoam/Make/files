@@ -1,0 +1,3 @@
+pimple4PCMFoam.C
+
+EXE = $(FOAM_USER_APPBIN)/pimple4PCMFoam
