@@ -1,0 +1,118 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | foam-extend: Open Source CFD                    |
+|  \\    /   O peration     | Version:     4.1                                |
+|   \\  /    A nd           | Web:         http://www.foam-extend.org         |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      changePatchTypeDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dictionaryReplacement
+{
+    T
+    {
+        internalField   uniform 315;
+
+        boundaryField
+        {
+            front
+            {
+                type            empty;
+            }
+
+            back
+            {
+                type            empty;
+            }
+
+            square_to_chamber
+            {
+                type            solidWallMixedTemperatureCoupled;
+                neighbourRegionName chamber;
+                neighbourPatchName chamber_to_square;
+                neighbourFieldName T;
+                Kappa           Kappa;
+                value           uniform 315;
+            }
+        }
+    }
+
+    rho
+    {
+        internalField   uniform 2640;
+
+        boundaryField
+        {
+            front
+            {
+                type            empty;
+            }
+
+            back
+            {
+                type            empty;
+            }
+
+            square_to_chamber
+            {
+                type            zeroGradient;
+            }
+        }
+    }
+
+    Kappa
+    {
+        internalField   uniform 108;
+
+        boundaryField
+        {
+            front
+            {
+                type            empty;
+            }
+
+            back
+            {
+                type            empty;
+            }
+
+            square_to_chamber
+            {
+                type            zeroGradient;
+            }
+        }
+    }
+
+    cp
+    {
+        internalField   uniform 960;
+
+        boundaryField
+        {
+            front
+            {
+                type            empty;
+            }
+
+            back
+            {
+                type            empty;
+            }
+
+            square_to_chamber
+            {
+                type            zeroGradient;
+            }
+        }
+    }
+}
+
+
+// ************************************************************************* //

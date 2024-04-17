@@ -1,0 +1,199 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | foam-extend: Open Source CFD                    |
+|  \\    /   O peration     | Version:     4.1                                |
+|   \\  /    A nd           | Web:         http://www.foam-extend.org         |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      changePatchTypeDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dictionaryReplacement
+{
+    T
+    {
+        internalField   uniform 300;
+
+        boundaryField
+        {
+            inletWall
+            {
+                type            zeroGradient;
+            }
+
+            outletWall
+            {
+                type            zeroGradient;
+            }
+
+            left
+            {
+                type            zeroGradient;
+            }
+
+            right
+            {
+                type            zeroGradient;
+            }
+
+            front
+            {
+                type            zeroGradient;
+            }
+
+            back
+            {
+                type            fixedValue;
+                value           uniform 333;
+            }
+
+            cast_to_miniChannel
+            {
+                type            solidWallMixedTemperatureCoupled;
+                neighbourRegionName miniChannel;
+                neighbourPatchName miniChannel_to_cast;
+                neighbourFieldName T;
+                Kappa           Kappa;
+                value           uniform 300;
+            }
+        }
+    }
+
+    rho
+    {
+        internalField   uniform 2000;
+
+        boundaryField
+        {
+            inletWall
+            {
+                type            zeroGradient;
+            }
+
+            outletWall
+            {
+                type            zeroGradient;
+            }
+
+            left
+            {
+                type            zeroGradient;
+            }
+
+            right
+            {
+                type            zeroGradient;
+            }
+
+            front
+            {
+                type            zeroGradient;
+            }
+
+            back
+            {
+                type            zeroGradient;
+            }
+
+            cast_to_miniChannel
+            {
+                type            zeroGradient;
+            }
+        }
+    }
+
+    Kappa
+    {
+        internalField   uniform 80;
+
+        boundaryField
+        {
+            inletWall
+            {
+                type            zeroGradient;
+            }
+
+            outletWall
+            {
+                type            zeroGradient;
+            }
+
+            left
+            {
+                type            zeroGradient;
+            }
+
+            right
+            {
+                type            zeroGradient;
+            }
+
+            front
+            {
+                type            zeroGradient;
+            }
+
+            back
+            {
+                type            zeroGradient;
+            }
+
+            cast_to_miniChannel
+            {
+                type            zeroGradient;
+            }
+        }
+    }
+
+    cp
+    {
+        internalField   uniform 900;
+
+        boundaryField
+        {
+            inletWall
+            {
+                type            zeroGradient;
+            }
+
+            outletWall
+            {
+                type            zeroGradient;
+            }
+
+            left
+            {
+                type            zeroGradient;
+            }
+
+            right
+            {
+                type            zeroGradient;
+            }
+
+            front
+            {
+                type            zeroGradient;
+            }
+
+            back
+            {
+                type            zeroGradient;
+            }
+
+            cast_to_miniChannel
+            {
+                type            zeroGradient;
+            }
+        }
+    }
+}
+
+
+// ************************************************************************* //

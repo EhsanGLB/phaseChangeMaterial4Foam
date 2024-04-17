@@ -1,0 +1,124 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | foam-extend: Open Source CFD                    |
+|  \\    /   O peration     | Version:     4.1                                |
+|   \\  /    A nd           | Web:         http://www.foam-extend.org         |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      changePatchTypeDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dictionaryReplacement
+{
+    U
+    {
+        internalField   uniform (0 0.028 0);
+
+        boundaryField
+        {
+            inlet
+            {
+                type            fixedValue;
+                value           uniform ( 0 0.028 0 );
+            }
+
+            outlet
+            {
+                type            zeroGradient;
+            }
+
+            miniChannel_to_cast
+            {
+                type            fixedValue;
+                value           uniform (0 0 0);
+            }
+        }
+    }
+
+    T
+    {
+        internalField   uniform 300;
+
+        boundaryField
+        {
+            inlet
+            {
+                type            fixedValue;
+                value           uniform 300;
+            }
+
+            outlet
+            {
+                type            zeroGradient;
+            }
+
+            miniChannel_to_cast
+            {
+                type            solidWallMixedTemperatureCoupled;
+                neighbourRegionName cast;
+                neighbourPatchName cast_to_miniChannel;
+                neighbourFieldName T;
+                Kappa           kappaEff;
+                value           uniform 300;
+            }
+        }
+    }
+
+    p
+    {
+        internalField   uniform 0;
+
+        boundaryField
+        {
+            inlet
+            {
+                type            zeroGradient;
+            }
+
+            outlet
+            {
+                type            fixedValue;
+                value           uniform 0;
+            }
+
+            miniChannel_to_cast
+            {
+                type            zeroGradient;
+            }
+        }
+    }
+
+    alphaEPCM
+    {
+        internalField   uniform 0.03;
+
+        boundaryField
+        {
+            inlet
+            {
+                type            fixedValue;
+                value           uniform 0.03;
+            }
+
+            outlet
+            {
+                type            zeroGradient;
+            }
+
+            miniChannel_to_cast
+            {
+                type            zeroGradient;
+            }
+        }
+    }
+
+}
+
+
+// ************************************************************************* //

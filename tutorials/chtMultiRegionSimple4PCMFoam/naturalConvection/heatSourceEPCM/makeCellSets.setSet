@@ -1,0 +1,4 @@
+cellSet square new boxToCell (0.03 0.03 -0.005) (0.07 0.07 0.005)
+cellSet chamber clear
+cellSet chamber add cellToCell square
+cellSet chamber invert
