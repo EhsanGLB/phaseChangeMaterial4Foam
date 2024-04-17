@@ -1,0 +1,152 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | foam-extend: Open Source CFD                    |
+|  \\    /   O peration     | Version:     4.1                                |
+|   \\  /    A nd           | Web:         http://www.foam-extend.org         |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      controlDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+libs
+(
+    "liblduSolvers.so"
+    "libPCM4Foam.so"
+)
+
+application     chtMultiRegion4PCMFoam;
+
+startFrom       latestTime;
+
+startTime       0;
+
+stopAt          endTime;
+
+endTime         36000;
+
+deltaT          0.1;
+
+writeControl    adjustableRunTime;
+
+writeInterval   600;
+
+purgeWrite      0;
+
+writeFormat     ascii;
+
+writePrecision  7;
+
+writeCompression compressed;
+
+timeFormat      general;
+
+timePrecision   6;
+
+runTimeModifiable yes;
+
+maxCo           0.7;
+
+maxDi		0.1;
+
+adjustTimeStep  yes;
+
+maxDeltaT	1.0;
+
+InfoSwitches
+{
+    writePrecision  6;
+    writeJobInfo    0;
+    allowSystemOperations 1;
+}
+
+functions
+(
+    postProcessPCM
+    {
+        functionObjectLibs    ("libutilityFunctionObjects.so");
+        type                  coded;
+        name                  postProcessPCM;
+        region                PCM;
+        enabled               true;
+        outputControl         outputTime;
+        redirectType          postProcessPCM;
+
+        code
+        #{
+            std::ofstream output;
+            output.open("postProcessPCM.txt",std::ofstream::app);
+
+            //- lookup fields
+            const volVectorField& U = mesh().lookupObject<volVectorField>("U");
+            const volScalarField& gamma = mesh().lookupObject<volScalarField>("gamma");
+            const fvMesh& mesh = U.mesh();
+            const scalarField& volumeCell = mesh.V();
+            scalar meltingFraction = (fvc::domainIntegrate(gamma).value()/sum(volumeCell))*100;
+
+            scalar t_ = U.mesh().time().value();
+            scalar deltaT_ = U.mesh().time().deltaT().value();
+
+            output << t_ << "\t\t" << meltingFraction << "\n";
+            output.close();
+
+            if(meltingFraction > scalar(99))
+            {
+                FatalErrorIn("finished") << exit(FatalError);
+            }
+        #};
+    }
+
+    postProcessPV
+    {
+        functionObjectLibs    ("libutilityFunctionObjects.so");
+        type                  coded;
+        name                  postProcessPV;
+        region                PV;
+        enabled               true;
+        outputControl         outputTime;
+        redirectType          postProcessPV;
+
+        code
+        #{
+            std::ofstream output;
+            output.open("postProcessPV.txt",std::ofstream::app);
+
+            //- lookup fields
+            const volScalarField& T = mesh().lookupObject<volScalarField>("T");
+            const volScalarField& kappa = mesh().lookupObject<volScalarField>("Kappa");
+            surfaceScalarField gradT = fvc::snGrad(T);
+
+
+            //- find id and compute Nusselt number
+            label topID = T.mesh().boundaryMesh().findPatchID("top");
+            scalar topArea = sum(T.mesh().magSf().boundaryField()[topID]);
+            scalar topHeatFluxAvg = sum(kappa.boundaryField()[topID]*gradT.boundaryField()[topID]*T.mesh().magSf().boundaryField()[topID])/topArea;
+            scalar avgT_ = sum(T.boundaryField()[topID]*T.mesh().magSf().boundaryField()[topID])/topArea;
+            scalar maxT_ = gMax(T.boundaryField()[topID]);
+
+
+            //- compute PV's efficiency and power
+            scalar flux_ = 800;
+            scalar absorptivity_ = 1.0;
+            scalar etaRef_ = 0.13;
+            scalar betaRef_ = 0.0041;
+            scalar TRef_ = 298;
+            scalar eta_ = etaRef_*(1-betaRef_*(avgT_-TRef_));
+            scalar P_ = etaRef_*(1-betaRef_*(avgT_-TRef_))*absorptivity_*flux_;//P(W/m2)
+
+            scalar t_ = T.mesh().time().value();
+            scalar deltaT_ = T.mesh().time().deltaT().value();
+
+            output << t_ << "\t\t" << topHeatFluxAvg << "\t\t" << avgT_ << "\t\t" << maxT_ << "\t\t" << eta_ << "\t\t" << P_ << "\n";
+            output.close();
+        #};
+    }
+);
+
+// ************************************************************************* //

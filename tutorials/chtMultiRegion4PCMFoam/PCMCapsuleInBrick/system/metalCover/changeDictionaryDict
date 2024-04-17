@@ -1,0 +1,143 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | foam-extend: Open Source CFD                    |
+|  \\    /   O peration     | Version:     4.1                                |
+|   \\  /    A nd           | Web:         http://www.foam-extend.org         |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      changePatchTypeDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dictionaryReplacement
+{
+    T
+    {
+        internalField   uniform 291;
+
+        boundaryField
+        {
+            top
+            {
+                type            zeroGradient;
+            }
+
+            bottom
+            {
+                type            zeroGradient;
+            }
+
+            metalCover_to_PCM
+            {
+                type            solidWallMixedTemperatureCoupled;
+                neighbourRegionName PCM;
+                neighbourPatchName PCM_to_metalCover;
+                neighbourFieldName T;
+                Kappa           Kappa;
+                value           uniform 291;
+            }
+
+            metalCover_to_brick
+            {
+                type            solidWallMixedTemperatureCoupled;
+                neighbourRegionName brick;
+                neighbourPatchName brick_to_metalCover;
+                neighbourFieldName T;
+                Kappa           Kappa;
+                value           uniform 291;
+            }
+        }
+    }
+
+    rho
+    {
+        internalField   uniform 2640;
+
+        boundaryField
+        {
+            top
+            {
+                type            zeroGradient;
+            }
+
+            bottom
+            {
+                type            zeroGradient;
+            }
+
+            metalCover_to_PCM
+            {
+                type            zeroGradient;
+            }
+
+            metalCover_to_brick
+            {
+                type            zeroGradient;
+            }
+        }
+    }
+
+    Kappa
+    {
+        internalField   uniform 108;
+
+        boundaryField
+        {
+            top
+            {
+                type            zeroGradient;
+            }
+
+            bottom
+            {
+                type            zeroGradient;
+            }
+
+            metalCover_to_PCM
+            {
+                type            zeroGradient;
+            }
+
+            metalCover_to_brick
+            {
+                type            zeroGradient;
+            }
+        }
+    }
+
+    cp
+    {
+        internalField   uniform 960;
+
+        boundaryField
+        {
+            top
+            {
+                type            zeroGradient;
+            }
+
+            bottom
+            {
+                type            zeroGradient;
+            }
+
+            metalCover_to_PCM
+            {
+                type            zeroGradient;
+            }
+
+            metalCover_to_brick
+            {
+                type            zeroGradient;
+            }
+        }
+    }
+}
+
+
+// ************************************************************************* //

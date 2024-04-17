@@ -1,0 +1,6 @@
+cellSet leftSolid new boxToCell (0.0 0.0 -0.01) (0.01 0.12 0.01)
+cellSet rightSolid new boxToCell (0.06 0.0 -0.01) (0.07 0.12 0.01)
+cellSet chamber clear
+cellSet chamber add cellToCell leftSolid
+cellSet chamber add cellToCell rightSolid
+cellSet chamber invert

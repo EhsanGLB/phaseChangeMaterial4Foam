@@ -1,0 +1,139 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | foam-extend: Open Source CFD                    |
+|  \\    /   O peration     | Version:     4.1                                |
+|   \\  /    A nd           | Web:         http://www.foam-extend.org         |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      changePatchTypeDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dictionaryReplacement
+{
+    T
+    {
+        internalField   uniform 300;
+
+        boundaryField
+        {
+            top
+            {
+                type            zeroGradient;
+            }
+
+            bottom
+            {
+                type            zeroGradient;
+            }
+
+            right
+            {
+                type            fixedValue;
+                value           uniform 343;
+            }
+
+            rightSolid_to_chamber
+            {
+                type            solidWallMixedTemperatureCoupled;
+                neighbourRegionName chamber;
+                neighbourPatchName chamber_to_rightSolid;
+                neighbourFieldName T;
+                Kappa           Kappa;
+                value           uniform 300;
+            }
+        }
+    }
+
+    rho
+    {
+        internalField   uniform 2640;
+
+        boundaryField
+        {
+            top
+            {
+                type            zeroGradient;
+            }
+
+            bottom
+            {
+                type            zeroGradient;
+            }
+
+            right
+            {
+                type            zeroGradient;
+            }
+
+            rightSolid_to_chamber
+            {
+                type            zeroGradient;
+            }
+        }
+    }
+
+    Kappa
+    {
+        internalField   uniform 108;
+
+        boundaryField
+        {
+            top
+            {
+                type            zeroGradient;
+            }
+
+            bottom
+            {
+                type            zeroGradient;
+            }
+
+            right
+            {
+                type            zeroGradient;
+            }
+
+            rightSolid_to_chamber
+            {
+                type            zeroGradient;
+            }
+        }
+    }
+
+    cp
+    {
+        internalField   uniform 960;
+
+        boundaryField
+        {
+            top
+            {
+                type            zeroGradient;
+            }
+
+            bottom
+            {
+                type            zeroGradient;
+            }
+
+            right
+            {
+                type            zeroGradient;
+            }
+
+            rightSolid_to_chamber
+            {
+                type            zeroGradient;
+            }
+        }
+    }
+}
+
+
+// ************************************************************************* //
