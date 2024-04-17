@@ -1,0 +1,147 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | foam-extend: Open Source CFD                    |
+|  \\    /   O peration     | Version:     4.1                                |
+|   \\  /    A nd           | Web:         http://www.foam-extend.org         |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      changePatchTypeDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dictionaryReplacement
+{
+    T
+    {
+        internalField   uniform 400;
+
+        boundaryField
+        {
+            back
+            {
+                type            fixedValue;
+                value           uniform 500;
+            }
+
+            square_to_chamber
+            {
+                type            solidWallMixedTemperatureCoupled;
+                neighbourRegionName chamber;
+                neighbourPatchName chamber_to_square;
+                neighbourFieldName T;
+                Kappa           Kappa;
+                value           uniform 400;
+            }
+        }
+    }
+
+    rho
+    {
+        internalField   uniform 2640;
+
+        boundaryField
+        {
+            back
+            {
+                type            zeroGradient;
+            }
+
+            square_to_chamber
+            {
+                type            zeroGradient;
+            }
+        }
+    }
+
+    Kappa
+    {
+        internalField   uniform 108;
+
+        boundaryField
+        {
+            back
+            {
+                type            zeroGradient;
+            }
+
+            square_to_chamber
+            {
+                type            zeroGradient;
+            }
+        }
+    }
+
+    cp
+    {
+        internalField   uniform 960;
+
+        boundaryField
+        {
+            back
+            {
+                type            zeroGradient;
+            }
+
+            square_to_chamber
+            {
+                type            zeroGradient;
+            }
+        }
+    }
+
+    IDefault
+    {
+        internalField   uniform 0;
+
+        boundaryField
+        {
+            back
+            {
+                type            greyDiffusiveRadiation;
+                T               T;
+                emissivity      0.5;
+                value           uniform 0;
+            }
+
+            square_to_chamber
+            {
+                type            greyDiffusiveRadiation;
+                T               T;
+                emissivity      0.5;
+                value           uniform 0;
+            }
+        }
+    }
+
+    IDefault
+    {
+        internalField   uniform 0;
+
+        boundaryField
+        {
+            back
+            {
+                type            MarshakRadiation;
+                T               T;
+                emissivity      1.0;
+                value           uniform 0;
+            }
+
+            square_to_chamber
+            {
+                type            MarshakRadiation;
+                T               T;
+                emissivity      1.0;
+                value           uniform 0;
+            }
+        }
+    }
+}
+
+
+// ************************************************************************* //

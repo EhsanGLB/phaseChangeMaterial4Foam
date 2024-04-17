@@ -1,0 +1,304 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | foam-extend: Open Source CFD                    |
+|  \\    /   O peration     | Version:     4.1                                |
+|   \\  /    A nd           | Web:         http://www.foam-extend.org         |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      changePatchTypeDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dictionaryReplacement
+{
+    U
+    {
+        internalField   uniform (1.0e-8 0 0);
+
+        boundaryField
+        {
+            top
+            {
+                type            fixedValue;
+                value           uniform (0 0 0);
+            }
+
+            bottom
+            {
+                type            fixedValue;
+                value           uniform (0 0 0);
+            }
+
+            left
+            {
+                type            fixedValue;
+                value           uniform (0 0 0);
+            }
+
+            right
+            {
+                type            fixedValue;
+                value           uniform (0 0 0);
+            }
+
+            front
+            {
+                type            fixedValue;
+                value           uniform (0 0 0);
+            }
+
+            back
+            {
+                type            fixedValue;
+                value           uniform (0 0 0);
+            }
+
+            chamber_to_square
+            {
+                type            fixedValue;
+                value           uniform (0 0 0);
+            }
+        }
+    }
+
+    T
+    {
+        internalField   uniform 300;
+
+        boundaryField
+        {
+            top
+            {
+                type            zeroGradient;
+            }
+
+            bottom
+            {
+                type            zeroGradient;
+            }
+
+            left
+            {
+                type            zeroGradient;
+            }
+
+            right
+            {
+                type            zeroGradient;
+            }
+
+            front
+            {
+                type            zeroGradient;
+            }
+
+            back
+            {
+                type            zeroGradient;
+            }
+
+            chamber_to_square
+            {
+                type            solidWallMixedTemperatureCoupled;
+                neighbourRegionName square;
+                neighbourPatchName square_to_chamber;
+                neighbourFieldName T;
+                Kappa           kappaEff;
+                value           uniform 400;
+            }
+        }
+    }
+
+    p
+    {
+        internalField   uniform 0;
+
+        boundaryField
+        {
+            top
+            {
+                type            buoyantPressure;
+                rho             rhok;
+                value           uniform 0;
+            }
+
+            bottom
+            {
+                type            buoyantPressure;
+                rho             rhok;
+                value           uniform 0;
+            }
+
+            left
+            {
+                type            buoyantPressure;
+                rho             rhok;
+                value           uniform 0;
+            }
+
+            right
+            {
+                type            buoyantPressure;
+                rho             rhok;
+                value           uniform 0;
+            }
+
+            front
+            {
+                type            buoyantPressure;
+                rho             rhok;
+                value           uniform 0;
+            }
+
+            back
+            {
+                type            buoyantPressure;
+                rho             rhok;
+                value           uniform 0;
+            }
+
+            chamber_to_square
+            {
+                type            buoyantPressure;
+                rho             rhok;
+                value           uniform 0;
+            }
+        }
+    }
+
+    IDefault
+    {
+        internalField   uniform 0;
+
+        boundaryField
+        {
+            top
+            {
+                type            greyDiffusiveRadiation;
+                T               T;
+                emissivity      0.5;
+                value           uniform 0;
+            }
+
+            bottom
+            {
+                type            greyDiffusiveRadiation;
+                T               T;
+                emissivity      0.5;
+                value           uniform 0;
+            }
+
+            left
+            {
+                type            greyDiffusiveRadiation;
+                T               T;
+                emissivity      0.5;
+                value           uniform 0;
+            }
+
+            right
+            {
+                type            greyDiffusiveRadiation;
+                T               T;
+                emissivity      0.5;
+                value           uniform 0;
+            }
+
+            front
+            {
+                type            greyDiffusiveRadiation;
+                T               T;
+                emissivity      0.5;
+                value           uniform 0;
+            }
+
+            back
+            {
+                type            greyDiffusiveRadiation;
+                T               T;
+                emissivity      0.5;
+                value           uniform 0;
+            }
+
+            chamber_to_square
+            {
+                type            greyDiffusiveRadiation;
+                T               T;
+                emissivity      0.5;
+                value           uniform 0;
+            }
+        }
+    }
+
+    G
+    {
+        internalField   uniform 0;
+
+        boundaryField
+        {
+            top
+            {
+                type            MarshakRadiation;
+                T               T;
+                emissivity      1.0;
+                value           uniform 0;
+            }
+
+            bottom
+            {
+                type            MarshakRadiation;
+                T               T;
+                emissivity      1.0;
+                value           uniform 0;
+            }
+
+            left
+            {
+                type            MarshakRadiation;
+                T               T;
+                emissivity      1.0;
+                value           uniform 0;
+            }
+
+            right
+            {
+                type            MarshakRadiation;
+                T               T;
+                emissivity      1.0;
+                value           uniform 0;
+            }
+
+            front
+            {
+                type            MarshakRadiation;
+                T               T;
+                emissivity      1.0;
+                value           uniform 0;
+            }
+
+            back
+            {
+                type            MarshakRadiation;
+                T               T;
+                emissivity      1.0;
+                value           uniform 0;
+            }
+
+            chamber_to_square
+            {
+                type            MarshakRadiation;
+                T               T;
+                emissivity      1.0;
+                value           uniform 0;
+            }
+        }
+    }
+}
+
+
+// ************************************************************************* //
