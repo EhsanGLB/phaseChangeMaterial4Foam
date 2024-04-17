@@ -1,0 +1,23 @@
+
+transportModels/incompressible/viscosityModels/EPCM/EPCM.C
+
+finiteVolumeDir = finiteVolume
+fieldsDir = $(finiteVolumeDir)/fields
+fvPatchFieldsDir = $(fieldsDir)/fvPatchFields
+derivedDir = $(fvPatchFieldsDir)/derived
+$(derivedDir)/robin4PCMFoam/robin4PCMFoam.C
+$(derivedDir)/photovoltaic4PCMFoam/photovoltaic4PCMFoam.C
+$(derivedDir)/buongiorno4PCMFoam/buongiorno4PCMFoam.C
+$(derivedDir)/parabolicRadialVelocity4PCMFoam/parabolicRadialVelocity4PCMFoam.C
+$(derivedDir)/powerLawRadialVelocity4PCMFoam/powerLawRadialVelocity4PCMFoam.C
+$(derivedDir)/timeVaryingRobin4PCMFoam/timeVaryingRobin4PCMFoam.C
+
+
+turbulenceModelsDir = turbulenceModels
+incompressibleDir = $(turbulenceModelsDir)/incompressible
+kappatWallFunctionsDir = $(incompressibleDir)/RAS/derivedFvPatchFields/wallFunctions/kappatWallFunctions
+$(kappatWallFunctionsDir)/kappatWallFunction4PCMFoam/kappatWallFunction4PCMFoamFvPatchScalarField.C
+$(kappatWallFunctionsDir)/kappatJayatillekeWallFunction4PCMFoam/kappatJayatillekeWallFunction4PCMFoamFvPatchScalarField.C
+
+
+LIB = $(FOAM_USER_LIBBIN)/libPCM4Foam

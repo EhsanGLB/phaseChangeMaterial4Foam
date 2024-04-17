@@ -1,0 +1,17 @@
+#!/bin/sh
+cd ${0%/*} || exit 1    # run from this directory
+set -x
+
+#------------------------------- PCM4Foam project -------------------------------#
+#Author
+    #Ehsan Golab, SUT. All rights reserved.
+    #Ehsan1996Golab@gmail.com
+
+#--------------------------------------------------------------------------------------#
+
+cp -r src $WM_PROJECT_USER_DIR/src/PCM4Foam
+$WM_PROJECT_USER_DIR/src/PCM4Foam/Allwmake
+
+applications/Allwmake
+
+# ----------------------------------------------------------------- end-of-file

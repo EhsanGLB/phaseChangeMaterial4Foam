@@ -1,0 +1,14 @@
+#!/bin/sh
+cd ${0%/*} || exit 1    # run from this directory
+set -x
+
+#------------------------------- PCM4Foam project -------------------------------#
+#Author
+    #Ehsan Golab, SUT. All rights reserved.
+    #Ehsan1996Golab@gmail.com
+
+#--------------------------------------------------------------------------------------#
+
+wmake libso
+ 
+# ----------------------------------------------------------------- end-of-file
