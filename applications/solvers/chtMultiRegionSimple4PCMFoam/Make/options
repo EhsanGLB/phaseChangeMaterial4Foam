@@ -1,0 +1,28 @@
+EXE_INC = \
+    -Ifluid \
+    -Isolid \
+    -IregionProperties \
+    -Iinclude \
+    -I$(LIB_SRC)/meshTools/lnInclude \
+    -I$(LIB_SRC)/finiteVolume/lnInclude \
+    -I$(LIB_SRC)/thermophysicalModels/basic/lnInclude \
+    -I$(LIB_SRC)/transportModels \
+    -I$(LIB_SRC)/transportModels/incompressible/singlePhaseTransportModel \
+    -I$(LIB_SRC)/turbulenceModels/incompressible/turbulenceModel \
+    -I$(LIB_SRC)/thermophysicalModels/radiation/lnInclude \
+    -I$(WM_PROJECT_USER_DIR)/src/SE4Foam/lnInclude
+
+
+EXE_LIBS = \
+    -lmeshTools \
+    -lfiniteVolume \
+    -llduSolvers \
+    -lbasicThermophysicalModels \
+    -lincompressibleTransportModels \
+    -lincompressibleTurbulenceModel \
+    -lincompressibleRASModels \
+    -lincompressibleLESModels \
+    -lradiation \
+    -L$(FOAM_USER_LIBBIN) \
+    -lSE4Foam
+
