@@ -1,0 +1,217 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | foam-extend: Open Source CFD                    |
+|  \\    /   O peration     | Version:     4.1                                |
+|   \\  /    A nd           | Web:         http://www.foam-extend.org         |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      changePatchTypeDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dictionaryReplacement
+{
+    T
+    {
+        internalField   uniform 296;
+
+        boundaryField
+        {
+            top
+            {
+                type		robin4PCMFoam;
+                Kappa		Kappa;
+                qo              (400);
+                ho              (5.0);
+                To              (293.0);
+            }
+
+            front
+            {
+                type            empty;
+            }
+
+            back
+            {
+                type            empty;
+            }
+
+            TEG_to_PCM
+            {
+                type            solidWallMixedTemperatureCoupled;
+                neighbourRegionName PCM;
+                neighbourPatchName PCM_to_TEG;
+                neighbourFieldName T;
+                Kappa           Kappa;
+                value           uniform 296;
+            }
+
+            TEG_to_fin1
+            {
+                type            solidWallMixedTemperatureCoupled;
+                neighbourRegionName fin1;
+                neighbourPatchName fin1_to_TEG;
+                neighbourFieldName T;
+                Kappa           Kappa;
+                value           uniform 296;
+            }
+
+            TEG_to_fin2
+            {
+                type            solidWallMixedTemperatureCoupled;
+                neighbourRegionName fin2;
+                neighbourPatchName fin2_to_TEG;
+                neighbourFieldName T;
+                Kappa           Kappa;
+                value           uniform 296;
+            }
+
+            TEG_to_fin3
+            {
+                type            solidWallMixedTemperatureCoupled;
+                neighbourRegionName fin3;
+                neighbourPatchName fin3_to_TEG;
+                neighbourFieldName T;
+                Kappa           Kappa;
+                value           uniform 296;
+            }
+        }
+    }
+
+    rho
+    {
+        internalField   uniform 7740;
+
+        boundaryField
+        {
+            top
+            {
+                type            zeroGradient;
+            }
+
+            front
+            {
+                type            empty;
+            }
+
+            back
+            {
+                type            empty;
+            }
+
+            TEG_to_PCM
+            {
+                type            zeroGradient;
+            }
+
+            TEG_to_fin1
+            {
+                type            zeroGradient;
+            }
+
+            TEG_to_fin2
+            {
+                type            zeroGradient;
+            }
+
+            TEG_to_fin3
+            {
+                type            zeroGradient;
+            }
+        }
+    }
+
+    Kappa
+    {
+        internalField   uniform 1.3;
+
+        boundaryField
+        {
+            top
+            {
+                type            zeroGradient;
+            }
+
+            front
+            {
+                type            empty;
+            }
+
+            back
+            {
+                type            empty;
+            }
+
+            TEG_to_PCM
+            {
+                type            zeroGradient;
+            }
+
+            TEG_to_fin1
+            {
+                type            zeroGradient;
+            }
+
+            TEG_to_fin2
+            {
+                type            zeroGradient;
+            }
+
+            TEG_to_fin3
+            {
+                type            zeroGradient;
+            }
+        }
+    }
+
+    cp
+    {
+        internalField   uniform 154;
+
+        boundaryField
+        {
+            top
+            {
+                type            zeroGradient;
+            }
+
+            front
+            {
+                type            empty;
+            }
+
+            back
+            {
+                type            empty;
+            }
+
+            TEG_to_PCM
+            {
+                type            zeroGradient;
+            }
+
+            TEG_to_fin1
+            {
+                type            zeroGradient;
+            }
+
+            TEG_to_fin2
+            {
+                type            zeroGradient;
+            }
+
+            TEG_to_fin3
+            {
+                type            zeroGradient;
+            }
+        }
+    }
+}
+
+
+// ************************************************************************* //

@@ -1,0 +1,128 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | foam-extend: Open Source CFD                    |
+|  \\    /   O peration     | Version:     4.1                                |
+|   \\  /    A nd           | Web:         http://www.foam-extend.org         |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      changePatchTypeDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dictionaryReplacement
+{
+    U
+    {
+        internalField   uniform (1.0e-8 0 0);
+
+        boundaryField
+        {
+            top
+            {
+                type            fixedValue;
+                value           uniform (0 0 0);
+            }
+
+            bottom
+            {
+                type            fixedValue;
+                value           uniform (0 0 0);
+            }
+
+            chamber_to_leftSolid
+            {
+                type            fixedValue;
+                value           uniform (0 0 0);
+            }
+
+            chamber_to_rightSolid
+            {
+                type            fixedValue;
+                value           uniform (0 0 0);
+            }
+        }
+    }
+
+    T
+    {
+        internalField   uniform 300;
+
+        boundaryField
+        {
+            top
+            {
+                type            zeroGradient;
+            }
+
+            bottom
+            {
+                type            zeroGradient;
+            }
+
+            chamber_to_leftSolid
+            {
+                type            solidWallMixedTemperatureCoupled;
+                neighbourRegionName leftSolid;
+                neighbourPatchName leftSolid_to_chamber;
+                neighbourFieldName T;
+                Kappa           kappaEff;
+                value           uniform 300;
+            }
+
+            chamber_to_rightSolid
+            {
+                type            solidWallMixedTemperatureCoupled;
+                neighbourRegionName rightSolid;
+                neighbourPatchName rightSolid_to_chamber;
+                neighbourFieldName T;
+                Kappa           kappaEff;
+                value           uniform 300;
+            }
+        }
+    }
+
+    p
+    {
+        internalField   uniform 0;
+
+        boundaryField
+        {
+            top
+            {
+                type            buoyantPressure;
+                rho             rhok;
+                value           uniform 0;
+            }
+
+            bottom
+            {
+                type            buoyantPressure;
+                rho             rhok;
+                value           uniform 0;
+            }
+
+            chamber_to_leftSolid
+            {
+                type            buoyantPressure;
+                rho             rhok;
+                value           uniform 0;
+            }
+
+            chamber_to_rightSolid
+            {
+                type            buoyantPressure;
+                rho             rhok;
+                value           uniform 0;
+            }
+        }
+    }
+
+}
+
+
+// ************************************************************************* //

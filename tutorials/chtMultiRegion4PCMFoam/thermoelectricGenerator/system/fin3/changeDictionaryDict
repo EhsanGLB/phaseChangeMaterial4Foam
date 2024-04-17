@@ -1,0 +1,143 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | foam-extend: Open Source CFD                    |
+|  \\    /   O peration     | Version:     4.1                                |
+|   \\  /    A nd           | Web:         http://www.foam-extend.org         |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      changePatchTypeDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dictionaryReplacement
+{
+    T
+    {
+        internalField   uniform 296;
+
+        boundaryField
+        {
+            front
+            {
+                type            empty;
+            }
+
+            back
+            {
+                type            empty;
+            }
+
+            fin3_to_PCM
+            {
+                type            solidWallMixedTemperatureCoupled;
+                neighbourRegionName PCM;
+                neighbourPatchName PCM_to_fin3;
+                neighbourFieldName T;
+                Kappa           Kappa;
+                value           uniform 296;
+            }
+
+            fin3_to_TEG
+            {
+                type            solidWallMixedTemperatureCoupled;
+                neighbourRegionName TEG;
+                neighbourPatchName TEG_to_fin3;
+                neighbourFieldName T;
+                Kappa           Kappa;
+                value           uniform 296;
+            }
+        }
+    }
+
+    rho
+    {
+        internalField   uniform 8900;
+
+        boundaryField
+        {
+            front
+            {
+                type            empty;
+            }
+
+            back
+            {
+                type            empty;
+            }
+
+            fin3_to_PCM
+            {
+                type            zeroGradient;
+            }
+
+            fin3_to_TEG
+            {
+                type            zeroGradient;
+            }
+        }
+    }
+
+    Kappa
+    {
+        internalField   uniform 398;
+
+        boundaryField
+        {
+            front
+            {
+                type            empty;
+            }
+
+            back
+            {
+                type            empty;
+            }
+
+            fin3_to_PCM
+            {
+                type            zeroGradient;
+            }
+
+            fin3_to_TEG
+            {
+                type            zeroGradient;
+            }
+        }
+    }
+
+    cp
+    {
+        internalField   uniform 386;
+
+        boundaryField
+        {
+            front
+            {
+                type            empty;
+            }
+
+            back
+            {
+                type            empty;
+            }
+
+            fin3_to_PCM
+            {
+                type            zeroGradient;
+            }
+
+            fin3_to_TEG
+            {
+                type            zeroGradient;
+            }
+        }
+    }
+}
+
+
+// ************************************************************************* //

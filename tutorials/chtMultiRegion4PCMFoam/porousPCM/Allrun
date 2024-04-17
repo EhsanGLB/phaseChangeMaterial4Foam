@@ -1,0 +1,71 @@
+#!/bin/sh
+cd ${0%/*} || exit 1    # run from this directory
+
+#------------------------------- PCM4Foam project -------------------------------#
+#Author
+    #Ehsan Golab, SUT. All rights reserved.
+    #Ehsan1996Golab@gmail.com
+
+#--------------------------------------------------------------------------------------#
+
+# Source tutorial run functions
+. $WM_PROJECT_DIR/bin/tools/RunFunctions
+
+# cleancase is function that removes the files and directories.(rm -f : remove the file, rm -r : remove the directory).
+cleancase ()
+{
+    rm -r Gnu*
+    rm -r processor*
+}
+
+
+# (getApplication) is an command to find the solver name from the controlDict file. Also, ($) use for the variable.
+application=$(getApplication)
+
+#cleancase
+#./Allclean
+
+
+echo run blockMesh ...
+m4 -P constant/polyMesh/blockMeshDictTrapezoid.m4 > constant/polyMesh/blockMeshDict
+blockMesh
+#checkMesh
+
+
+# it can be used to create multi regions
+rm -rf constant/polyMesh/sets
+setSet -batch makeCellSets.setSet
+rm constant/polyMesh/sets/*_old
+rm constant/polyMesh/sets/*_old.gz
+setsToZones -noFlipMap
+splitMeshRegions -cellZones -overwrite
+
+mkdir -p 0.001/chamber
+mkdir -p 0.001/leftSolid
+mkdir -p 0.001/rightSolid
+
+cp 0/* 0.001/chamber/
+cp 0/* 0.001/leftSolid/
+cp 0/* 0.001/rightSolid/
+
+changeDictionary -region chamber
+changeDictionary -region leftSolid
+changeDictionary -region rightSolid
+
+
+# it can be used to create multi zones in a specific region
+setSet -batch porousBox.setSet -region chamber
+setsToZones -region chamber
+
+
+echo run solver ...
+#$application
+chtMultiRegion4PCMFoam
+
+# -------------------------------------------------------------------------- end-of-file
+
+
+
+
+
+

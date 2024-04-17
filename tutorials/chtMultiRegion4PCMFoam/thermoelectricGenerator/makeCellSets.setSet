@@ -1,0 +1,10 @@
+cellSet TEG new boxToCell (0 0.05 -0.005) (0.2 0.052 0.005)
+cellSet fin1 new boxToCell (0.048 .02 -0.005) (0.052 0.05 0.005)
+cellSet fin2 new boxToCell (0.098 .02 -0.005) (0.102 0.05 0.005)
+cellSet fin3 new boxToCell (0.148 .02 -0.005) (0.152 0.05 0.005)
+cellSet PCM clear
+cellSet PCM add cellToCell TEG
+cellSet PCM add cellToCell fin1
+cellSet PCM add cellToCell fin2
+cellSet PCM add cellToCell fin3
+cellSet PCM invert
