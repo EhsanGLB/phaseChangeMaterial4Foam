@@ -9,6 +9,7 @@ set -x
 
 #--------------------------------------------------------------------------------------#
 
+find -type f -exec chmod 777 {} \;
 cp -r src $WM_PROJECT_USER_DIR/src/PCM4Foam
 $WM_PROJECT_USER_DIR/src/PCM4Foam/Allwmake
 
