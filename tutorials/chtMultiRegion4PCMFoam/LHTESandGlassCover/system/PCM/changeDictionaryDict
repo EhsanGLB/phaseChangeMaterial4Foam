@@ -1,0 +1,226 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | foam-extend: Open Source CFD                    |
+|  \\    /   O peration     | Version:     4.1                                |
+|   \\  /    A nd           | Web:         http://www.foam-extend.org         |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      changePatchTypeDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dictionaryReplacement
+{
+    U
+    {
+        internalField   uniform (1.0e-8 0 0);
+
+        boundaryField
+        {
+            bottom
+            {
+                type            fixedValue;
+                value           uniform (0 0 0);
+            }
+
+            left
+            {
+                type            fixedValue;
+                value           uniform (0 0 0);
+            }
+
+            right
+            {
+                type            fixedValue;
+                value           uniform (0 0 0);
+            }
+
+            front
+            {
+                type            empty;
+            }
+
+            back
+            {
+                type            empty;
+            }
+
+            PCM_to_metalSheet
+            {
+                type            fixedValue;
+                value           uniform (0 0 0);
+            }
+
+            PCM_to_fin1
+            {
+                type            fixedValue;
+                value           uniform (0 0 0);
+            }
+
+            PCM_to_fin2
+            {
+                type            fixedValue;
+                value           uniform (0 0 0);
+            }
+
+            PCM_to_fin3
+            {
+                type            fixedValue;
+                value           uniform (0 0 0);
+            }
+        }
+    }
+
+    T
+    {
+        internalField   uniform 296;
+
+        boundaryField
+        {
+            bottom
+            {
+                type            zeroGradient;
+            }
+
+            left
+            {
+                type            zeroGradient;
+            }
+
+            right
+            {
+                type            zeroGradient;
+            }
+
+            front
+            {
+                type            empty;
+            }
+
+            back
+            {
+                type            empty;
+            }
+
+            PCM_to_metalSheet
+            {
+                type            solidWallMixedTemperatureCoupled;
+                neighbourRegionName metalSheet;
+                neighbourPatchName metalSheet_to_PCM;
+                neighbourFieldName T;
+                Kappa           kappaEff;
+                value           uniform 296;
+            }
+
+            PCM_to_fin1
+            {
+                type            solidWallMixedTemperatureCoupled;
+                neighbourRegionName fin1;
+                neighbourPatchName fin1_to_PCM;
+                neighbourFieldName T;
+                Kappa           kappaEff;
+                value           uniform 296;
+            }
+
+            PCM_to_fin2
+            {
+                type            solidWallMixedTemperatureCoupled;
+                neighbourRegionName fin2;
+                neighbourPatchName fin2_to_PCM;
+                neighbourFieldName T;
+                Kappa           kappaEff;
+                value           uniform 296;
+            }
+
+            PCM_to_fin3
+            {
+                type            solidWallMixedTemperatureCoupled;
+                neighbourRegionName fin3;
+                neighbourPatchName fin3_to_PCM;
+                neighbourFieldName T;
+                Kappa           kappaEff;
+                value           uniform 296;
+            }
+        }
+    }
+
+    p
+    {
+        internalField   uniform 0;
+
+        boundaryField
+        {
+            top
+            {
+                type            buoyantPressure;
+                rho             rhok;
+                value           uniform 0;
+            }
+
+            bottom
+            {
+                type            buoyantPressure;
+                rho             rhok;
+                value           uniform 0;
+            }
+
+            left
+            {
+                type            buoyantPressure;
+                rho             rhok;
+                value           uniform 0;
+            }
+
+            right
+            {
+                type            buoyantPressure;
+                rho             rhok;
+                value           uniform 0;
+            }
+
+            front
+            {
+                type            empty;
+            }
+
+            back
+            {
+                type            empty;
+            }
+
+            PCM_to_metalSheet
+            {
+                type            buoyantPressure;
+                rho             rhok;
+                value           uniform 0;
+            }
+
+            PCM_to_fin1
+            {
+                type            buoyantPressure;
+                rho             rhok;
+                value           uniform 0;
+            }
+
+            PCM_to_fin2
+            {
+                type            buoyantPressure;
+                rho             rhok;
+                value           uniform 0;
+            }
+
+            PCM_to_fin3
+            {
+                type            buoyantPressure;
+                rho             rhok;
+                value           uniform 0;
+            }
+        }
+    }
+}
+// ************************************************************************* //

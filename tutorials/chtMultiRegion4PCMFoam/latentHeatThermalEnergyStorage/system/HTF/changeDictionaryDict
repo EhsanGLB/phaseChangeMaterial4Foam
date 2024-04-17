@@ -1,0 +1,98 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | foam-extend: Open Source CFD                    |
+|  \\    /   O peration     | Version:     4.1                                |
+|   \\  /    A nd           | Web:         http://www.foam-extend.org         |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      changePatchTypeDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dictionaryReplacement
+{
+    U
+    {
+        internalField   uniform (0 0 0);
+        boundaryField
+        {
+            inlet
+            {
+                type            fixedValue;
+                value           uniform (0 1.71e-2 0);
+            }
+
+            outlet
+            {
+                type            zeroGradient;
+            }
+
+            HTF_to_PCM
+            {
+                type            fixedValue;
+                value           uniform (0 0 0);
+            }
+        }
+    }
+
+    T
+    {
+        internalField   uniform 303;
+        boundaryField
+        {
+            inlet
+            {
+                type            fixedValue;
+                value           uniform 373;
+            }
+
+            outlet
+            {
+                type            zeroGradient;
+            }
+
+            HTF_to_PCM
+            {
+                type            solidWallMixedTemperatureCoupled;
+                neighbourRegionName PCM;
+                neighbourPatchName PCM_to_HTF;
+                neighbourFieldName T;
+                Kappa           kappaEff;
+                value           uniform 303;
+            }
+        }
+    }
+
+    p
+    {
+        internalField   uniform 0;
+
+        boundaryField
+        {
+            inlet
+            {
+                type            zeroGradient;
+            }
+
+            outlet
+            {
+                type            fixedValue;
+                value           uniform 0.0;
+            }
+
+            HTF_to_PCM
+            {
+                type            zeroGradient;
+            }
+        }
+    }
+
+}
+
+
+// ************************************************************************* //

@@ -1,0 +1,193 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | foam-extend: Open Source CFD                    |
+|  \\    /   O peration     | Version:     4.1                                |
+|   \\  /    A nd           | Web:         http://www.foam-extend.org         |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      changePatchTypeDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dictionaryReplacement
+{
+    U
+    {
+        internalField   uniform (1.0e-8 0 0);
+
+        boundaryField
+        {
+            top
+            {
+                type            fixedValue;
+                value           uniform (0 0 0);
+            }
+
+            front
+            {
+                type            empty;
+            }
+
+            back
+            {
+                type            empty;
+            }
+
+            glassCover_to_metalSheet
+            {
+                type            fixedValue;
+                value           uniform (0 0 0);
+            }
+        }
+    }
+
+    T
+    {
+        internalField   uniform 296;
+
+        boundaryField
+        {
+            top
+            {
+                type            fixedValue;
+                value           uniform 350;
+            }
+
+            front
+            {
+                type            empty;
+            }
+
+            back
+            {
+                type            empty;
+            }
+
+            glassCover_to_metalSheet
+            {
+                type            solidWallMixedTemperatureCoupled;
+                neighbourRegionName metalSheet;
+                neighbourPatchName metalSheet_to_glassCover;
+                neighbourFieldName T;
+                Kappa           kappaEff;
+                value           uniform 296;
+
+                /*type            solidWallHeatFluxTemperature;
+                neighbourRegionName metalSheet;
+                neighbourPatchName metalSheet_to_glassCover;
+                Kappa           Kappa;
+                q               uniform 100.0;
+                value           uniform 296.0;
+                gradient        uniform 0.0;*/
+            }
+        }
+    }
+
+    p
+    {
+        internalField   uniform 0;
+
+        boundaryField
+        {
+            top
+            {
+                type            buoyantPressure;
+                rho             rhok;
+                value           uniform 0;
+            }
+
+            front
+            {
+                type            empty;
+            }
+
+            back
+            {
+                type            empty;
+            }
+
+            glassCover_to_metalSheet
+            {
+                type            buoyantPressure;
+                rho             rhok;
+                value           uniform 0;
+            }
+        }
+    }
+
+    IDefault
+    {
+        internalField   uniform 0;
+
+        boundaryField
+        {
+            top
+            {
+                type            greyDiffusiveRadiation;
+                T               T;
+                emissivity      0.5;
+                value           uniform 0;
+            }
+
+            front
+            {
+                type            empty;
+            }
+
+            back
+            {
+                type            empty;
+            }
+
+            glassCover_to_metalSheet
+            {
+                type            greyDiffusiveRadiation;
+                T               T;
+                emissivity      0.5;
+                value           uniform 0;
+            }
+        }
+    }
+
+    G
+    {
+        internalField   uniform 0;
+
+        boundaryField
+        {
+            top
+            {
+                type            MarshakRadiation;
+                T               T;
+                emissivity      1.0;
+                value           uniform 0;
+            }
+
+            front
+            {
+                type            empty;
+            }
+
+            back
+            {
+                type            empty;
+            }
+
+            glassCover_to_metalSheet
+            {
+                type            MarshakRadiation;
+                T               T;
+                emissivity      0.1;
+                value           uniform 0;
+            }
+        }
+    }
+}
+
+
+// ************************************************************************* //

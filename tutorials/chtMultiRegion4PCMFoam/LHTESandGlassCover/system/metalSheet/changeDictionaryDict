@@ -1,0 +1,226 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | foam-extend: Open Source CFD                    |
+|  \\    /   O peration     | Version:     4.1                                |
+|   \\  /    A nd           | Web:         http://www.foam-extend.org         |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      changePatchTypeDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dictionaryReplacement
+{
+    T
+    {
+        internalField   uniform 296;
+
+        boundaryField
+        {
+            front
+            {
+                type            empty;
+            }
+
+            back
+            {
+                type            empty;
+            }
+
+            metalSheet_to_glassCover
+            {
+                type            solidWallMixedTemperatureCoupled;
+                neighbourRegionName glassCover;
+                neighbourPatchName glassCover_to_metalSheet;
+                neighbourFieldName T;
+                Kappa           Kappa;
+                value           uniform 296;
+
+                /*type            solidWallHeatFluxTemperature;
+                neighbourRegionName metalSheet;
+                neighbourPatchName metalSheet_to_glassCover;
+                Kappa           Kappa;
+                q               uniform 100.0;
+                value           uniform 296.0;
+                gradient        uniform 0.0;*/
+            }
+
+            metalSheet_to_PCM
+            {
+                type            solidWallMixedTemperatureCoupled;
+                neighbourRegionName PCM;
+                neighbourPatchName PCM_to_metalSheet;
+                neighbourFieldName T;
+                Kappa           Kappa;
+                value           uniform 296;
+            }
+
+            metalSheet_to_fin1
+            {
+                type            solidWallMixedTemperatureCoupled;
+                neighbourRegionName fin1;
+                neighbourPatchName fin1_to_metalSheet;
+                neighbourFieldName T;
+                Kappa           Kappa;
+                value           uniform 296;
+            }
+
+            metalSheet_to_fin2
+            {
+                type            solidWallMixedTemperatureCoupled;
+                neighbourRegionName fin2;
+                neighbourPatchName fin2_to_metalSheet;
+                neighbourFieldName T;
+                Kappa           Kappa;
+                value           uniform 296;
+            }
+
+            metalSheet_to_fin3
+            {
+                type            solidWallMixedTemperatureCoupled;
+                neighbourRegionName fin3;
+                neighbourPatchName fin3_to_metalSheet;
+                neighbourFieldName T;
+                Kappa           Kappa;
+                value           uniform 296;
+            }
+        }
+    }
+
+    rho
+    {
+        internalField   uniform 8900;
+
+        boundaryField
+        {
+            front
+            {
+                type            empty;
+            }
+
+            back
+            {
+                type            empty;
+            }
+
+            metalSheet_to_glassCover
+            {
+                type            zeroGradient;
+            }
+
+            metalSheet_to_PCM
+            {
+                type            zeroGradient;
+            }
+
+            metalSheet_to_fin1
+            {
+                type            zeroGradient;
+            }
+
+            metalSheet_to_fin2
+            {
+                type            zeroGradient;
+            }
+
+            metalSheet_to_fin3
+            {
+                type            zeroGradient;
+            }
+        }
+    }
+
+    Kappa
+    {
+        internalField   uniform 398;
+
+        boundaryField
+        {
+            front
+            {
+                type            empty;
+            }
+
+            back
+            {
+                type            empty;
+            }
+
+            metalSheet_to_glassCover
+            {
+                type            zeroGradient;
+            }
+
+            metalSheet_to_PCM
+            {
+                type            zeroGradient;
+            }
+
+            metalSheet_to_fin1
+            {
+                type            zeroGradient;
+            }
+
+            metalSheet_to_fin2
+            {
+                type            zeroGradient;
+            }
+
+            metalSheet_to_fin3
+            {
+                type            zeroGradient;
+            }
+        }
+    }
+
+    cp
+    {
+        internalField   uniform 386;
+
+        boundaryField
+        {
+            front
+            {
+                type            empty;
+            }
+
+            back
+            {
+                type            empty;
+            }
+
+            metalSheet_to_glassCover
+            {
+                type            zeroGradient;
+            }
+
+            metalSheet_to_PCM
+            {
+                type            zeroGradient;
+            }
+
+            metalSheet_to_fin1
+            {
+                type            zeroGradient;
+            }
+
+            metalSheet_to_fin2
+            {
+                type            zeroGradient;
+            }
+
+            metalSheet_to_fin3
+            {
+                type            zeroGradient;
+            }
+        }
+    }
+}
+
+
+// ************************************************************************* //

@@ -1,0 +1,121 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | foam-extend: Open Source CFD                    |
+|  \\    /   O peration     | Version:     4.1                                |
+|   \\  /    A nd           | Web:         http://www.foam-extend.org         |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      changePatchTypeDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dictionaryReplacement
+{
+    U
+    {
+        internalField   uniform (1.0e-8 0 0);
+        boundaryField
+        {
+            top
+            {
+                type            fixedValue;
+                value           uniform (0 0 0);
+            }
+
+            bottom
+            {
+                type            fixedValue;
+                value           uniform (0 0 0);
+            }
+
+            outerWall
+            {
+                type            fixedValue;
+                value           uniform (0 0 0);
+            }
+
+            PCM_to_MH
+            {
+                type            fixedValue;
+                value           uniform (0 0 0);
+            }
+        }
+    }
+
+    T
+    {
+        internalField   uniform 303;
+        boundaryField
+        {
+            top
+            {
+                type            zeroGradient;
+            }
+
+            bottom
+            {
+                type            zeroGradient;
+            }
+
+            outerWall
+            {
+                type            zeroGradient;
+            }
+
+            PCM_to_MH
+            {
+                type            solidWallMixedTemperatureCoupled;
+                neighbourRegionName MH;
+                neighbourPatchName MH_to_PCM;
+                neighbourFieldName T;
+                Kappa           kappaEff;
+                value           uniform 303;
+            }
+        }
+    }
+
+    p
+    {
+        internalField   uniform 0;
+
+        boundaryField
+        {
+            top
+            {
+                type            buoyantPressure;
+                rho             rhok;
+                value           uniform 0;
+            }
+
+            bottom
+            {
+                type            buoyantPressure;
+                rho             rhok;
+                value           uniform 0;
+            }
+
+            outerWall
+            {
+                type            buoyantPressure;
+                rho             rhok;
+                value           uniform 0;
+            }
+
+            PCM_to_MH
+            {
+                type            buoyantPressure;
+                rho             rhok;
+                value           uniform 0;
+            }
+        }
+    }
+
+}
+
+
+// ************************************************************************* //
