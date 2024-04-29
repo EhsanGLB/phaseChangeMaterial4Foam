@@ -27,7 +27,7 @@ Once a version of OpenFOAM has been installed, download PCM4Foam and then run th
 
 
 
-### How can I cite the current toolbox and find more information? ###
+### How can I cite the current miniFoam and find more information? ###
 
 You can see the governing equations and boundary conditions for each case in tutorial and more case in following resources:
 
