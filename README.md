@@ -31,8 +31,8 @@ Once a version of OpenFOAM has been installed, download PCM4Foam and then run th
 
 You can see the governing equations and boundary conditions for each case in tutorial and more case in following resources:
 
-[1] Golab, E., Goudarzi, S., Kazemi-Varnamkhasti, H., Amigh, H., Ghaemi, F., Baleanu, D. and Karimipour, A., 2021. Investigation of the effect of adding nano-encapsulated phase change material to water in natural convection inside a rectangular cavity. Journal of Energy Storage, 40, p.102699.
+[1] Golab, E., Vahedi, B., Jain, A., Taylor, R.A. and Vafai, K., 2023. Laminar forced convection in a tube with a nano-encapsulated phase change materials: Minimizing exergy losses and maximizing the heat transfer rate. Journal of Energy Storage, 65, p.107233.
 
-[2] Golab, E., Vahedi, B., Jain, A., Taylor, R.A. and Vafai, K., 2023. Laminar forced convection in a tube with a nano-encapsulated phase change materials: Minimizing exergy losses and maximizing the heat transfer rate. Journal of Energy Storage, 65, p.107233.
+[2] Golab, E., Goudarzi, S., Kazemi-Varnamkhasti, H., Amigh, H., Ghaemi, F., Baleanu, D. and Karimipour, A., 2021. Investigation of the effect of adding nano-encapsulated phase change material to water in natural convection inside a rectangular cavity. Journal of Energy Storage, 40, p.102699.
 
 
