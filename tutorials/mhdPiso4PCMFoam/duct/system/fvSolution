@@ -1,0 +1,93 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | foam-extend: Open Source CFD                    |
+|  \\    /   O peration     | Version:     4.1                                |
+|   \\  /    A nd           | Web:         http://www.foam-extend.org         |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      fvSolution;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+solvers
+{
+    p
+    {
+        solver          GAMG;
+        tolerance       1e-06;
+        relTol          0.01;
+        smoother        GaussSeidel;
+        cacheAgglomeration true;
+        nCellsInCoarsestLevel 10;
+        agglomerator    faceAreaPair;
+        mergeLevels     1;
+    }
+    /*p
+    {
+        solver           CG;
+        preconditioner   Cholesky;
+        tolerance        1e-06;
+        relTol           0;
+    }*/
+    U
+    {
+        solver           BiCGStab;
+        preconditioner   DILU;
+        tolerance        1e-05;
+        relTol           0;
+    }
+    k
+    {
+        solver          BiCGStab;
+        preconditioner  DILU;
+        tolerance       1e-05;
+        relTol          0;
+    }
+    epsilon
+    {
+        solver          BiCGStab;
+        preconditioner  DILU;
+        tolerance       1e-05;
+        relTol          0;
+    }
+
+    "(T|alphai|alpha_Cu)"
+    {
+        solver           BiCGStab;
+        preconditioner   DILU;
+        tolerance        1e-06;
+        relTol           0.1;
+    }
+    B
+    {
+        solver           BiCGStab;
+        preconditioner   DILU;
+        tolerance        1e-05;
+        relTol           0;
+    }
+    pB
+    {
+        solver           CG;
+        preconditioner   Cholesky;
+        tolerance        1e-05;
+        relTol           0;
+    }
+}
+
+PISO
+{
+    nCorrectors     3;
+    nNonOrthogonalCorrectors 0;
+}
+
+BPISO
+{
+    nCorrectors     3;
+}
+
+// ************************************************************************* //

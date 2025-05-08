@@ -1,0 +1,75 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | foam-extend: Open Source CFD                    |
+|  \\    /   O peration     | Version:     4.1                                |
+|   \\  /    A nd           | Web:         http://www.foam-extend.org         |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      fvSchemes;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+ddtSchemes
+{
+    default				Euler;//steadyState;
+}
+
+gradSchemes
+{
+    default				Gauss linear;
+    grad(p)				Gauss linear;
+    grad(U)				Gauss linear;
+    grad((DBU*magSqr(B)))		Gauss linear;
+}
+
+divSchemes
+{
+    default				none;
+    div(phi,U)				Gauss limitedLinearV 1;
+    div(phi,k)				Gauss limitedLinear 1;
+    div(phi,epsilon)			Gauss limitedLinear 1;
+    div(phi,R)				Gauss limitedLinear 1;
+    div(R)				Gauss linear;
+    div(phi,nuTilda)			Gauss limitedLinear 1;
+    div((nuEff*dev(T(grad(U)))))	Gauss linear;
+    div(phi,alphai)			Gauss upwind;
+    div((phi*interpolate((rho*Cp))),T)	bounded Gauss upwind;
+    div(phiB,U)				Gauss linear;
+    div(phi,B)				Gauss linear;
+    div(phiB,((2*DBU)*B))		Gauss linear;
+}
+
+laplacianSchemes
+{
+    default				Gauss linear corrected;
+    laplacian(nuEff,U)			Gauss linear corrected;
+    laplacian(rAU,p)			Gauss linear corrected;
+    laplacian(DkEff,k)			Gauss linear corrected;
+    laplacian(DepsilonEff,epsilon)	Gauss linear corrected;
+    laplacian(DREff,R)			Gauss linear corrected;
+    laplacian(DnuTildaEff,nuTilda)	Gauss linear corrected;
+    laplacian(kEff,T)			Gauss linear corrected;
+    laplacian(DB,B)			Gauss linear corrected;
+    laplacian((1|A(B)),pB)		Gauss linear corrected;
+}
+
+interpolationSchemes
+{
+    default				linear;
+    interpolate(U)			linear;
+    interpolate(HbyA)			linear;
+    interpolate(B)			linear;
+}
+
+snGradSchemes
+{
+    default 				corrected;
+}
+
+
+// ************************************************************************* //

@@ -1,0 +1,19 @@
+#!/bin/sh
+
+# Source tutorial clean functions
+. $WM_PROJECT_DIR/bin/tools/CleanFunctions
+
+cleanCase
+
+rm -rf constant/polyMesh/blockMeshDict
+rm -f 0/cellToRegion*
+rm -rf 0/PCM
+rm -rf 0/chamber
+rm -f constant/cellToRegion*
+rm -rf constant/polyMesh/boundary
+rm -rf constant/PCM/polyMesh
+rm -rf constant/chamber/polyMesh
+rm -rf VTK
+rm -rf dynamicCode
+rm -f post*
+

@@ -71,9 +71,16 @@
             }
         }
 
+        fEPCM.correctBoundaryConditions();
+        moltenEPCM.correctBoundaryConditions();
+
         rhoEPCM = ((1+omegaEPCM)*rhoc*rhos)/(rhos+omegaEPCM*rhoc);
         Cpce = Cpc+( (3.14/2)*(hmc/Tmrc-Cpc)*sin( (3.14/Tmrc)*(T-(Tmc-Tmrc/2)) ) )*fEPCM;
         CpEPCM = ((Cpce+omegaEPCM*Cps)*rhoc*rhos)/((rhos+omegaEPCM*rhoc)*rhoEPCM);
+
+        rhoEPCM.correctBoundaryConditions();
+        Cpce.correctBoundaryConditions();
+        CpEPCM.correctBoundaryConditions();
 
         //-mixture
         rho = alphaEPCM*rhoEPCM+(1-alphaEPCM)*rhof;
@@ -89,6 +96,7 @@
             dimensionedScalar& betas = betasFluid[i];
             betaEPCM = betac + ( (betas-betac)/2 )*(1 - omegaEPCM*rhos/rhoc);
             beta = (alphaEPCM*rhoEPCM*betaEPCM+(1-alphaEPCM)*rhof*betaf)/rho;
+            beta.correctBoundaryConditions();
         }
     }
     else
@@ -102,8 +110,15 @@
         {
             dimensionedScalar& betaf = betafFluid[i];
             beta = betaf;
+            beta.correctBoundaryConditions();
         }
     }
+
+    rho.correctBoundaryConditions();
+    Cp.correctBoundaryConditions();
+    kappa.correctBoundaryConditions();
+    mu.correctBoundaryConditions();
+
 
 
     incompressible::turbulenceModel& turb = turbulence[i];
@@ -119,6 +134,7 @@
     volScalarField& rhoPM = rhoPMFluid[i];
     volScalarField& CpPM = CpPMFluid[i];
     volScalarField& kappaPM = kappaPMFluid[i];
+    volScalarField& hsPM = hsPMFluid[i];
 
 
     volScalarField& rhoEff = rhoEffFluid[i];
@@ -129,6 +145,8 @@
     rhoEff = porosity*rho + (1-porosity)*rhoPM;
     CpEff = (porosity*rho*Cp + (1-porosity)*rhoPM*CpPM)/rhoEff;
     kappaEff = porosity*(kappat + kappa) + (1-porosity)*kappaPM;
-
+    rhoEff.correctBoundaryConditions();
+    CpEff.correctBoundaryConditions();
+    kappaEff.correctBoundaryConditions();
 
     radiation::radiationModel& rad = radiation[i];

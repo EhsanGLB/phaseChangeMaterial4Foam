@@ -26,9 +26,15 @@
             }
         }
 
+        fEPCMptr.correctBoundaryConditions();
+        moltenEPCMptr.correctBoundaryConditions();
+
 
         Cpceptr = Cpc+( (3.14/2)*(hmc/Tmrc-Cpc)*sin( (3.14/Tmrc)*(T-(Tmc-Tmrc/2)) ) )*fEPCMptr;
         CpEPCMptr = ((Cpceptr+omegaEPCM*Cps)*rhoc*rhos)/((rhos+omegaEPCM*rhoc)*rhoEPCM);
+
+        Cpceptr.correctBoundaryConditions();
+        CpEPCMptr.correctBoundaryConditions();
 
         //-mixture
         rho = alphaEPCMptr*rhoEPCM+(1-alphaEPCMptr)*rhof;
@@ -44,6 +50,11 @@
         mu = muf;
     }
 
+    rho.correctBoundaryConditions();
+    Cp.correctBoundaryConditions();
+    kappa.correctBoundaryConditions();
+    mu.correctBoundaryConditions();
+
 
     turbulence->correct();
     kappat = (turbulence->nut()/Prt)*rho*Cp;
@@ -51,3 +62,4 @@
 
 
     kappaEff = porosity*(kappat + kappa) + (1-porosity)*kappaPM;
+    kappaEff.correctBoundaryConditions();

@@ -71,9 +71,16 @@
             }
         }
 
+        fEPCM.correctBoundaryConditions();
+        moltenEPCM.correctBoundaryConditions();
+
         rhoEPCM = ((1+omegaEPCM)*rhoc*rhos)/(rhos+omegaEPCM*rhoc);
         Cpce = Cpc+( (3.14/2)*(hmc/Tmrc-Cpc)*sin( (3.14/Tmrc)*(T-(Tmc-Tmrc/2)) ) )*fEPCM;
         CpEPCM = ((Cpce+omegaEPCM*Cps)*rhoc*rhos)/((rhos+omegaEPCM*rhoc)*rhoEPCM);
+
+        rhoEPCM.correctBoundaryConditions();
+        Cpce.correctBoundaryConditions();
+        CpEPCM.correctBoundaryConditions();
 
         //-mixture
         rho = alphaEPCM*rhoEPCM+(1-alphaEPCM)*rhof;
@@ -105,6 +112,11 @@
         }
     }
 
+    rho.correctBoundaryConditions();
+    Cp.correctBoundaryConditions();
+    kappa.correctBoundaryConditions();
+    mu.correctBoundaryConditions();
+
     const dimensionedScalar initialMass
     (
         "initialMass",
@@ -129,10 +141,12 @@
     volScalarField& rhoPM = rhoPMFluid[i];
     volScalarField& CpPM = CpPMFluid[i];
     volScalarField& kappaPM = kappaPMFluid[i];
+    volScalarField& hsPM = hsPMFluid[i];
 
 
     volScalarField& kappaEff = kappaEffFluid[i];
     kappaEff = porosity*(kappat + kappa) + (1-porosity)*kappaPM;
+    kappaEff.correctBoundaryConditions();
 
 
     radiation::radiationModel& rad = radiation[i];

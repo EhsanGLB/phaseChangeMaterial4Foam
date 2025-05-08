@@ -34,7 +34,7 @@ divSchemes
     div(R)				Gauss linear;
     div(phi,nuTilda)			Gauss upwind;
     div((nuEff*dev(T(grad(U)))))	Gauss linear;
-    div(phi,T)				Gauss upwind;
+    div((phi*interpolate((rho*Cp))),T)	bounded Gauss upwind;
     div(phi,alphaEPCM)			Gauss upwind;
 }
 

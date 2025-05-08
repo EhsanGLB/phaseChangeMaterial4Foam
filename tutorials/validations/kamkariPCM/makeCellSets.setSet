@@ -1,0 +1,4 @@
+cellSet PCM new boxToCell (0.025 0.025 -0.05) (0.075 0.145 0.05)
+cellSet chamber clear
+cellSet chamber add cellToCell PCM
+cellSet chamber invert

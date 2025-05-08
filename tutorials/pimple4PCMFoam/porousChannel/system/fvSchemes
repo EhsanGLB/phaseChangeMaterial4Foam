@@ -30,7 +30,7 @@ divSchemes
 {
     default				none;
     div(phi,U)				Gauss upwind;
-    div(phi,T)				Gauss upwind;
+    div((phi*interpolate((rho*Cp))),T)	bounded Gauss upwind;
     div(phi,alphaEPCM)			Gauss upwind;
     div((nuEff*dev(T(grad(U)))))	Gauss linear;
     div(phi,k)				Gauss upwind;

@@ -20,4 +20,7 @@ $(kappatWallFunctionsDir)/kappatWallFunction4PCMFoam/kappatWallFunction4PCMFoamF
 $(kappatWallFunctionsDir)/kappatJayatillekeWallFunction4PCMFoam/kappatJayatillekeWallFunction4PCMFoamFvPatchScalarField.C
 
 
+$(finiteVolumeDir)/finiteVolume/convectionSchemes/boundedConvectionScheme/boundedConvectionSchemes.C
+
+
 LIB = $(FOAM_USER_LIBBIN)/libPCM4Foam
