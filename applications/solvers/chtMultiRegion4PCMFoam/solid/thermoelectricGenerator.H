@@ -1,4 +1,4 @@
-
+    dimensionedScalar& SeTEG = SeTEGG[i];
     dimensionedScalar& ZT = ZTTEG[i];
     wordList TEGPatcheNames (thermoelectricGenerator[i].lookup("TEGPatcheNames"));
     surfaceScalarField gradT = fvc::snGrad(T);
@@ -16,3 +16,19 @@
     scalar heatTransfer = mag(patch1Heat-patch0Heat);
     dimensionedScalar P("P", dimensionSet(1, -1, -3, 0, 0, 0, 0),  (etaTEG*heatTransfer)/sum(solidRegions[i].V()).value());
     SeTEG = -1*P;
+
+
+{
+    for (int nonOrth=0; nonOrth<=nNonOrthCorr; nonOrth++)
+    {
+        tmp<fvScalarMatrix> TEqn
+        (
+            fvm::ddt(rho*cp, T)
+          - fvm::laplacian(Kappa, T)
+          ==
+            SeTEG
+        );
+    }
+
+    Info<< "Min/max T:" << min(T) << ' ' << max(T) << endl;
+}

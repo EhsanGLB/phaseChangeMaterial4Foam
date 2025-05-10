@@ -1,3 +1,4 @@
+    volScalarField& SeB = SeBattery[i];
     word& state = stateBattery[i];
     scalar& C = CBattery[i];
     dimensionedScalar& R = RBattery[i];
@@ -38,3 +39,22 @@
     {
         SeB = (R*pow(I, 2) - 1.0*sign*I*T*dEdT)/V;
     }
+
+
+{
+    for (int nonOrth=0; nonOrth<=nNonOrthCorr; nonOrth++)
+    {
+        tmp<fvScalarMatrix> TEqn
+        (
+            fvm::ddt(rho*cp, T)
+          - fvm::laplacian(Kappa, T)
+          ==
+            SeB
+        );
+
+        TEqn().relax();
+        TEqn().solve();
+    }
+
+    Info<< "Min/max T:" << min(T) << ' ' << max(T) << endl;
+}

@@ -7,6 +7,3 @@
 
     dimensionedScalar& hs = hsSolid[i];
 
-    volScalarField& SeB = SeBattery[i];
-    dimensionedScalar& SeTEG = SeTEGG[i];
-

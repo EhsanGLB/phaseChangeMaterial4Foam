@@ -1,0 +1,106 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | foam-extend: Open Source CFD                    |
+|  \\    /   O peration     | Version:     4.1                                |
+|   \\  /    A nd           | Web:         http://www.foam-extend.org         |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      changePatchTypeDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dictionaryReplacement
+{
+    U
+    {
+        internalField   uniform (1.0e-8 0 0);
+
+        boundaryField
+        {
+            top
+            {
+                type            fixedValue;
+                value           uniform (0 0 0);
+            }
+
+            bottom
+            {
+                type            fixedValue;
+                value           uniform (0 0.001 0);
+            }
+
+            hollow_to_block
+            {
+                type            fixedValue;
+                value           uniform (0 0 0);
+            }
+        }
+    }
+
+    T
+    {
+        internalField   uniform 283;
+
+        boundaryField
+        {
+            top
+            {
+                type            zeroGradient;
+            }
+
+            bottom
+            {
+                //type            fixedValue;
+                //value           uniform 283;
+
+                type                    timeVaryingUniformFixedValue;
+                //"fileName|file" "$FOAM_CASE/constant/ToVsTime";
+                fileName        "$FOAM_CASE/constant/ToVsTime";
+                outOfBounds     repeat;
+            }
+
+            hollow_to_block
+            {
+                type            solidWallMixedTemperatureCoupled;
+                neighbourRegionName block;
+                neighbourPatchName block_to_hollow;
+                neighbourFieldName T;
+                Kappa           kappaEff;
+                value           uniform 283;
+            }
+        }
+    }
+
+    p
+    {
+        internalField   uniform 0;
+
+        boundaryField
+        {
+            top
+            {
+                type            fixedValue;
+                value           uniform 0;
+            }
+
+            bottom
+            {
+                type            zeroGradient;
+            }
+
+            hollow_to_block
+            {
+                type            zeroGradient;
+            }
+        }
+    }
+
+}
+
+
+// ************************************************************************* //

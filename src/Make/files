@@ -11,6 +11,8 @@ $(derivedDir)/buongiorno4PCMFoam/buongiorno4PCMFoam.C
 $(derivedDir)/parabolicRadialVelocity4PCMFoam/parabolicRadialVelocity4PCMFoam.C
 $(derivedDir)/powerLawRadialVelocity4PCMFoam/powerLawRadialVelocity4PCMFoam.C
 $(derivedDir)/timeVaryingRobin4PCMFoam/timeVaryingRobin4PCMFoam.C
+$(derivedDir)/robinLocal4PCMFoam/robinLocal4PCMFoam.C
+$(derivedDir)/timeVaryingMixedRobin4PCMFoam/timeVaryingMixedRobin4PCMFoam.C
 
 
 turbulenceModelsDir = turbulenceModels

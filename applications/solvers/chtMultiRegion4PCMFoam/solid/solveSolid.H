@@ -3,14 +3,19 @@ if (battery[i].headerOk())
     #include "battery.H"
 }
 
-if (thermoelectricGenerator[i].headerOk())
+else if (thermoelectricGenerator[i].headerOk())
 {
     #include "thermoelectricGenerator.H"
 }
 
-if(metalHydride[i].headerOk())
+else if(metalHydride[i].headerOk())
 {
     #include "metalHydride.H"
+}
+
+else if (EPCMPropertiesSolid[i].headerOk())
+{
+    #include "EPCM.H"
 }
 
 else

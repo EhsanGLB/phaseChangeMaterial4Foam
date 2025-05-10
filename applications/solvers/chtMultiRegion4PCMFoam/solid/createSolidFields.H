@@ -277,6 +277,343 @@
         }
     }
 
+//-------------------PCM4Foam-->EPCM------------------//
+    PtrList<IOdictionary> EPCMPropertiesSolid(solidRegions.size());
+    PtrList<volScalarField> alphaEPCMSolid(solidRegions.size());
+    PtrList<volScalarField> rhoEPCMSolid(solidRegions.size());
+    PtrList<volScalarField> fEPCMSolid(solidRegions.size());
+    PtrList<volScalarField> moltenEPCMSolid(solidRegions.size());
+    PtrList<volScalarField> CpEPCMSolid(solidRegions.size());
+    PtrList<volScalarField> rhomSolid(solidRegions.size());
+    PtrList<volScalarField> CpmSolid(solidRegions.size());
+    PtrList<volScalarField> kappamSolid(solidRegions.size());
+
+    PtrList<dimensionedScalar> omegaEPCMSolid(solidRegions.size());
+    PtrList<dimensionedScalar> lambdaEPCMSolid(solidRegions.size());
+    PtrList<dimensionedScalar> kappaEPCMSolid(solidRegions.size());
+    //-core
+    PtrList<dictionary> coreSubDictSolid(solidRegions.size());
+    PtrList<dimensionedScalar> rhocSolid(solidRegions.size());
+    PtrList<dimensionedScalar> CpcSolid(solidRegions.size());
+    PtrList<dimensionedScalar> kappacSolid(solidRegions.size());
+    PtrList<dimensionedScalar> TmcSolid(solidRegions.size());
+    PtrList<dimensionedScalar> TmrcSolid(solidRegions.size());
+    PtrList<dimensionedScalar> hmcSolid(solidRegions.size());
+    PtrList<dimensionedScalar> dcSolid(solidRegions.size());
+    PtrList<volScalarField> CpceSolid(solidRegions.size());
+    //-shell
+    PtrList<dictionary> shellSubDictSolid(solidRegions.size());
+    PtrList<dimensionedScalar> rhoshSolid(solidRegions.size());
+    PtrList<dimensionedScalar> CpshSolid(solidRegions.size());
+    PtrList<dimensionedScalar> kappashSolid(solidRegions.size());
+    PtrList<dimensionedScalar> dshSolid(solidRegions.size());
+
+
+    forAll(solidRegions, i)
+    {
+        EPCMPropertiesSolid.set
+        (
+            i,
+            new IOdictionary
+            (
+                IOobject
+                (
+                    "EPCMProperties",
+                    runTime.constant(),
+                    solidRegions[i],
+                    IOobject::READ_IF_PRESENT,
+                    IOobject::NO_WRITE
+                )
+            )
+        );
+
+        //-EPCM
+        if (EPCMPropertiesSolid[i].headerOk())
+        {
+            coreSubDictSolid.set
+            (
+                i,
+                new dictionary
+                (
+                    EPCMPropertiesSolid[i].subDict("core")
+                )
+            );
+
+            shellSubDictSolid.set
+            (
+                i,
+                new dictionary
+                (
+                    EPCMPropertiesSolid[i].subDict("shell")
+                )
+            );
+
+            Info<< "    Adding to alphaEPCMSolid\n" << endl;
+            alphaEPCMSolid.set
+            (
+                i,
+                new volScalarField
+                (
+                    IOobject
+                    (
+                        "alphaEPCMs",
+                        runTime.timeName(),
+                        solidRegions[i],
+                        IOobject::MUST_READ,
+                        IOobject::AUTO_WRITE
+                    ),
+                    solidRegions[i]
+                )
+            );
+
+            Info<< "    Adding to rhoEPCMSolid\n" << endl;
+            rhoEPCMSolid.set
+            (
+                i,
+                new volScalarField
+                (
+                    IOobject
+                    (
+                        "rhoEPCMs",
+                        runTime.timeName(),
+                        solidRegions[i],
+                        IOobject::NO_READ,
+                        IOobject::NO_WRITE
+                    ),
+                    solidRegions[i],
+                    dimensionedScalar("rhoEPCMs", dimDensity, SMALL),
+                    "zeroGradient"
+                )
+            );
+
+            Info<< "    Adding to fEPCMSolid\n" << endl;
+            fEPCMSolid.set
+            (
+                i,
+                new volScalarField
+                (
+                    IOobject
+                    (
+                        "fEPCMs",
+                        runTime.timeName(),
+                        solidRegions[i],
+                        IOobject::NO_READ,
+                        IOobject::NO_WRITE
+                    ),
+                    solidRegions[i],
+                    dimensionedScalar("fEPCMs", dimless, SMALL),
+                    "zeroGradient"
+                )
+            );
+
+            Info<< "    Adding to moltenEPCMSolid\n" << endl;
+            moltenEPCMSolid.set
+            (
+                i,
+                new volScalarField
+                (
+                    IOobject
+                    (
+                        "moltenEPCMs",
+                        runTime.timeName(),
+                        solidRegions[i],
+                        IOobject::NO_READ,
+                        IOobject::AUTO_WRITE
+                    ),
+                    solidRegions[i],
+                    dimensionedScalar("moltenEPCMs", dimless, SMALL),
+                    "zeroGradient"
+                )
+            );
+
+            Info<< "    Adding to CpEPCMSolid\n" << endl;
+            CpEPCMSolid.set
+            (
+                i,
+                new volScalarField
+                (
+                    IOobject
+                    (
+                        "CpEPCMs",
+                        runTime.timeName(),
+                        solidRegions[i],
+                        IOobject::NO_READ,
+                        IOobject::NO_WRITE
+                    ),
+                    solidRegions[i],
+                    dimensionedScalar("CpEPCMs", dimSpecificHeatCapacity, SMALL),
+                    "zeroGradient"
+                )
+            );
+
+            Info<< "    Adding to rhomSolid\n" << endl;
+            rhomSolid.set
+            (
+                i,
+                new volScalarField
+                (
+                    IOobject
+                    (
+                        "rhoms",
+                        runTime.timeName(),
+                        solidRegions[i],
+                        IOobject::NO_READ,
+                        IOobject::NO_WRITE
+                    ),
+                    solidRegions[i],
+                    dimensionedScalar("rhoms", dimDensity, SMALL),
+                    "zeroGradient"
+                )
+            );
+
+            Info<< "    Adding to CpmSolid\n" << endl;
+            CpmSolid.set
+            (
+                i,
+                new volScalarField
+                (
+                    IOobject
+                    (
+                        "Cpms",
+                        runTime.timeName(),
+                        solidRegions[i],
+                        IOobject::NO_READ,
+                        IOobject::NO_WRITE
+                    ),
+                    solidRegions[i],
+                    dimensionedScalar("Cpms", dimSpecificHeatCapacity, SMALL),
+                    "zeroGradient"
+                )
+            );
+
+            Info<< "    Adding to kappamSolid\n" << endl;
+            kappamSolid.set
+            (
+                i,
+                new volScalarField
+                (
+                    IOobject
+                    (
+                        "kappams",
+                        runTime.timeName(),
+                        solidRegions[i],
+                        IOobject::NO_READ,
+                        IOobject::AUTO_WRITE
+                    ),
+                    solidRegions[i],
+                    dimensionedScalar("kappams", dimThermalConductivity, SMALL),
+                    "zeroGradient"
+                )
+            );
+
+            omegaEPCMSolid.set
+            (
+                i,
+                new dimensionedScalar (EPCMPropertiesSolid[i].lookup("omega"))
+            );
+
+            lambdaEPCMSolid.set
+            (
+                i,
+                new dimensionedScalar (EPCMPropertiesSolid[i].lookup("lambda"))
+            );
+
+            //-core
+            rhocSolid.set
+            (
+                i,
+                new dimensionedScalar (coreSubDictSolid[i].lookup("rho"))
+            );
+
+            CpcSolid.set
+            (
+                i,
+                new dimensionedScalar (coreSubDictSolid[i].lookup("Cp"))
+            );
+
+            kappacSolid.set
+            (
+                i,
+                new dimensionedScalar (coreSubDictSolid[i].lookup("kappa"))
+            );
+
+            TmcSolid.set
+            (
+                i,
+                new dimensionedScalar (coreSubDictSolid[i].lookup("Tm"))
+            );
+
+            TmrcSolid.set
+            (
+                i,
+                new dimensionedScalar (coreSubDictSolid[i].lookup("Tmr"))
+            );
+
+            hmcSolid.set
+            (
+                i,
+                new dimensionedScalar (coreSubDictSolid[i].lookup("hm"))
+            );
+
+            Info<< "    Adding to CpceSolid\n" << endl;
+            CpceSolid.set
+            (
+                i,
+                new volScalarField
+                (
+                    IOobject
+                    (
+                        "Cpces",
+                        runTime.timeName(),
+                        solidRegions[i],
+                        IOobject::NO_READ,
+                        IOobject::NO_WRITE
+                    ),
+                    solidRegions[i],
+                    dimensionedScalar("Cpces", dimSpecificHeatCapacity, SMALL),
+                    "zeroGradient"
+                )
+            );
+
+            //-shell
+            rhoshSolid.set
+            (
+                i,
+                new dimensionedScalar (shellSubDictSolid[i].lookup("rho"))
+            );
+
+            CpshSolid.set
+            (
+                i,
+                new dimensionedScalar (shellSubDictSolid[i].lookup("Cp"))
+            );
+
+            kappashSolid.set
+            (
+                i,
+                new dimensionedScalar (shellSubDictSolid[i].lookup("kappa"))
+            );
+
+            dshSolid.set
+            (
+                i,
+                new dimensionedScalar (shellSubDictSolid[i].lookup("d"))
+            );
+
+            kappaEPCMSolid.set
+            (
+                i,
+                new dimensionedScalar ("kappaEPCM", dimThermalConductivity, SMALL)
+            );
+
+            dcSolid.set
+            (
+                i,
+                new dimensionedScalar ("dc", dimLength, SMALL)
+            );
+        }
+    }
+
 //-------------------PCM4Foam-->Metal hydride storage------------------//
     PtrList<IOdictionary> metalHydride(solidRegions.size());
     PtrList<dictionary> gasSubDict(solidRegions.size());
