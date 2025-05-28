@@ -37,10 +37,10 @@ m4_define(rad, [calc($1*pi/180.0)])
 //variables
 m4_define(widthT, 200)
 m4_define(widthB, 200)
-m4_define(height, 500)
+m4_define(height, 3000)
 m4_define(length, 150)
-m4_define(numberOfCell_x, 80)
-m4_define(numberOfCell_y, 20)
+m4_define(numberOfCell_x, 40)
+m4_define(numberOfCell_y, 150)
 m4_define(numberOfCell_z, 60)
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //

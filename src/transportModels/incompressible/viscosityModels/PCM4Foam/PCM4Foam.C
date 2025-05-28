@@ -23,7 +23,7 @@ License
 
 \*---------------------------------------------------------------------------*/
 
-#include "EPCM.H"
+#include "PCM4Foam.H"
 #include "addToRunTimeSelectionTable.H"
 #include "surfaceFields.H"
 
@@ -33,12 +33,12 @@ namespace Foam
 {
 namespace viscosityModels
 {
-    defineTypeNameAndDebug(EPCM, 0);
+    defineTypeNameAndDebug(PCM4Foam, 0);
 
     addToRunTimeSelectionTable
     (
         viscosityModel,
-        EPCM,
+        PCM4Foam,
         dictionary
     );
 }
@@ -48,7 +48,7 @@ namespace viscosityModels
 // * * * * * * * * * * * * Private Member Functions  * * * * * * * * * * * * //
 
 Foam::tmp<Foam::volScalarField>
-Foam::viscosityModels::EPCM::calcNu() const
+Foam::viscosityModels::PCM4Foam::calcNu() const
 {
     const volScalarField& rho = U_.mesh().lookupObject<volScalarField>("rho");
     const volScalarField& mu = U_.mesh().lookupObject<volScalarField>("mu");
@@ -59,7 +59,7 @@ Foam::viscosityModels::EPCM::calcNu() const
 
 // * * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * //
 
-Foam::viscosityModels::EPCM::EPCM
+Foam::viscosityModels::PCM4Foam::PCM4Foam
 (
     const word& name,
     const dictionary& viscosityProperties,
@@ -85,7 +85,7 @@ Foam::viscosityModels::EPCM::EPCM
 
 // * * * * * * * * * * * * * * Member Functions  * * * * * * * * * * * * * * //
 
-bool Foam::viscosityModels::EPCM::read
+bool Foam::viscosityModels::PCM4Foam::read
 (
     const dictionary& viscosityProperties
 )

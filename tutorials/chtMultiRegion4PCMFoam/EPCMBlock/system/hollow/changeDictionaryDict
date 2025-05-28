@@ -18,20 +18,19 @@ dictionaryReplacement
 {
     U
     {
-        internalField   uniform (1.0e-8 0 0);
+        internalField   uniform (0 0.01 0);
 
         boundaryField
         {
             top
             {
-                type            fixedValue;
-                value           uniform (0 0 0);
+                type            zeroGradient;
             }
 
             bottom
             {
                 type            fixedValue;
-                value           uniform (0 0.001 0);
+                value           uniform (0 0.01 0);
             }
 
             hollow_to_block
@@ -41,6 +40,32 @@ dictionaryReplacement
             }
         }
     }
+
+    /*U
+    {
+        internalField   uniform (0 1e-8 0);
+
+        boundaryField
+        {
+            top
+            {
+                type            zeroGradient;
+            }
+
+            bottom
+            {
+                type		inletOutlet;
+                inletValue	uniform (0 0 0);
+                value		uniform (0 0 0);
+            }
+
+            hollow_to_block
+            {
+                type            fixedValue;
+                value           uniform (0 0 0);
+            }
+        }
+    }*/
 
     T
     {
@@ -55,9 +80,6 @@ dictionaryReplacement
 
             bottom
             {
-                //type            fixedValue;
-                //value           uniform 283;
-
                 type                    timeVaryingUniformFixedValue;
                 //"fileName|file" "$FOAM_CASE/constant/ToVsTime";
                 fileName        "$FOAM_CASE/constant/ToVsTime";
@@ -96,6 +118,9 @@ dictionaryReplacement
             hollow_to_block
             {
                 type            zeroGradient;
+                /*type            buoyantPressure;
+                rho             rhok;
+                value           uniform 0;*/
             }
         }
     }

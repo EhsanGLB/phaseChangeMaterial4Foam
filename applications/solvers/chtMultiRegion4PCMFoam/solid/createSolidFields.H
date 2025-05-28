@@ -458,7 +458,7 @@
                         runTime.timeName(),
                         solidRegions[i],
                         IOobject::NO_READ,
-                        IOobject::NO_WRITE
+                        IOobject::AUTO_WRITE
                     ),
                     solidRegions[i],
                     dimensionedScalar("rhoms", dimDensity, SMALL),
@@ -478,7 +478,7 @@
                         runTime.timeName(),
                         solidRegions[i],
                         IOobject::NO_READ,
-                        IOobject::NO_WRITE
+                        IOobject::AUTO_WRITE
                     ),
                     solidRegions[i],
                     dimensionedScalar("Cpms", dimSpecificHeatCapacity, SMALL),

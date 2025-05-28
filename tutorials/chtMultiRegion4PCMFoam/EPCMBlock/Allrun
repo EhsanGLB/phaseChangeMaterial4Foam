@@ -28,8 +28,8 @@ application=$(getApplication)
 
 echo run blockMesh ...
 m4 -P constant/polyMesh/blockMeshDictTrapezoid.m4 > constant/polyMesh/blockMeshDict
-
 blockMesh
+
 setSet -batch hollow.setSet
 rm constant/polyMesh/sets/*_old
 rm constant/polyMesh/sets/*_old.gz

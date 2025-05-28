@@ -22,21 +22,21 @@ License
     along with foam-extend.  If not, see <http://www.gnu.org/licenses/>.
 
 Class
-    Foam::viscosityModels::EPCM
+    Foam::viscosityModels::PCM4Foam
 
 Description
     An incompressible Cross-Power law non-Newtonian viscosity model.
 
 SourceFiles
-    EPCM.C
+    PCM4Foam.C
 
 Author
     Ehsan Golab, SUT. All rights reserved.
 
 \*---------------------------------------------------------------------------*/
 
-#ifndef EPCM_H
-#define EPCM_H
+#ifndef PCM4Foam_H
+#define PCM4Foam_H
 
 #include "viscosityModel.H"
 #include "dimensionedScalar.H"
@@ -50,10 +50,10 @@ namespace viscosityModels
 {
 
 /*---------------------------------------------------------------------------*\
-                           Class EPCM Declaration
+                           Class PCM4Foam Declaration
 \*---------------------------------------------------------------------------*/
 
-class EPCM
+class PCM4Foam
 :
     public viscosityModel
 {
@@ -70,13 +70,13 @@ class EPCM
 public:
 
     //- Runtime type information
-    TypeName("EPCM");
+    TypeName("PCM4Foam");
 
 
     // Constructors
 
         //- Construct from components
-        EPCM
+        PCM4Foam
         (
             const word& name,
             const dictionary& viscosityProperties,
@@ -87,7 +87,7 @@ public:
 
     // Destructor
 
-        virtual ~EPCM()
+        virtual ~PCM4Foam()
         {}
 
 

@@ -28,7 +28,7 @@ startTime       0;
 
 stopAt          endTime;
 
-endTime         259200;
+endTime         172800;
 
 deltaT          0.1;
 
@@ -117,8 +117,10 @@ functions
             Info << "qout: " << qout << endl;
             Info << endl;
 
-
-            output << t_ << "\t" << Tin << "\t" << Tout << "\t" << qin << "\t" << qout << "\n";
+            if (t_>86300)
+            {
+                output << (t_-86400)/3600 << "\t" << (Tin-273) << "\t" << (Tout-273) << "\t" << qin << "\t" << qout << "\n";
+            }
             output.close();
         #};
     }

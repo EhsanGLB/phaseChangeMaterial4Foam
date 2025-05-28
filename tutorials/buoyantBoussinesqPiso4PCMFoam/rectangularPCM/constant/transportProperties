@@ -14,9 +14,7 @@ FoamFile
 }
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-transportModel  Newtonian;
-
-nu		nu [0 2 -1 0 0 0 0]		6.7e-6;
+transportModel  PCM4Foam;
 
 rho		rho [1 -3 0 0 0 0 0]		912;
 Cp		Cp [0 2 -2 -1 0 0 0]		2285;

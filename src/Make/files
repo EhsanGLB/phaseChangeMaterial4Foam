@@ -1,5 +1,5 @@
 
-transportModels/incompressible/viscosityModels/EPCM/EPCM.C
+transportModels/incompressible/viscosityModels/PCM4Foam/PCM4Foam.C
 
 finiteVolumeDir = finiteVolume
 fieldsDir = $(finiteVolumeDir)/fields

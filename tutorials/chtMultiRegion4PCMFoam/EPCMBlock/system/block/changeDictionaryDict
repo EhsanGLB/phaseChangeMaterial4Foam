@@ -44,9 +44,6 @@ dictionaryReplacement
 
             front
             {
-                //type            fixedValue;
-                //value           uniform 340;
-
                 type                    timeVaryingMixedRobin4PCMFoam;
                 Kappa                   kappams;
                 absorptivity            0.65;
@@ -231,7 +228,7 @@ dictionaryReplacement
 
     alphaEPCMs
     {
-        internalField   uniform 0.05;
+        internalField   uniform 0.1;
 
         boundaryField
         {
