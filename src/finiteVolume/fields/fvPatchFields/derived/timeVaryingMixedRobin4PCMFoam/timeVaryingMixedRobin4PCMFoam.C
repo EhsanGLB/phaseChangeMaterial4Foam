@@ -166,9 +166,26 @@ void Foam::timeVaryingMixedRobin4PCMFoam::write(Ostream& os) const
     os.writeKeyword("Kappa") << kappaName_ << token::END_STATEMENT << nl;
     os.writeKeyword("absorptivity") << absorptivity_ << token::END_STATEMENT << nl;
     os.writeKeyword("emissivity") << emissivity_ << token::END_STATEMENT << nl;
-    /*timeSeriesqs_.write(os);
+
+    os.writeKeyword("qs") << nl;
+    os << "        " << token::BEGIN_BLOCK << nl;
+    timeSeriesqs_.write(os);
+    os <<  "        " << token::END_BLOCK << nl;
+
+    os.writeKeyword("ho") << nl;
+    os << "        " << token::BEGIN_BLOCK << nl;
     timeSeriesho_.write(os);
-    timeSeriesTo_.write(os);*/
+    os <<  "        " << token::END_BLOCK << nl;
+
+    os.writeKeyword("To") << nl;
+    os << "        " << token::BEGIN_BLOCK << nl;
+    timeSeriesTo_.write(os);
+    os <<  "        " << token::END_BLOCK << nl;
+
+    os.writeKeyword("Tsky") << nl;
+    os << "        " << token::BEGIN_BLOCK << nl;
+    timeSeriesTsky_.write(os);
+    os <<  "        " << token::END_BLOCK << nl;
 
     writeEntry("value", os);
     gradient().writeEntry("gradient", os);

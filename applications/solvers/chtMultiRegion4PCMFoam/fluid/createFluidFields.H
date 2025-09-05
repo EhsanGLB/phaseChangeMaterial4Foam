@@ -988,7 +988,7 @@
                 rhoPMFluid[i][cells[cellI]] = zoneRho.value();
                 CpPMFluid[i][cells[cellI]] = zoneCp.value();
                 kappaPMFluid[i][cells[cellI]] = zoneKappa.value();
-                hsPMFluid[cells[cellI]] = zoneHs.value();
+                hsPMFluid[i][cells[cellI]] = zoneHs.value();
             }
         }
 
@@ -1065,6 +1065,105 @@
             )
         );
 
+    }
+
+//------------------- PCM4Foam -> Resistive Heating ------------------//
+    PtrList<IOdictionary> resHeat(fluidRegions.size());
+    PtrList<dimensionedScalar> rhFluid(fluidRegions.size());
+    PtrList<word> typerhFluid(fluidRegions.size());
+    PtrList<dimensionedScalar> PrhFluid(fluidRegions.size());
+    PtrList<dimensionedScalar> RrhFluid(fluidRegions.size());
+    PtrList<dimensionedScalar> VrhFluid(fluidRegions.size());
+    PtrList<dimensionedScalar> IrhFluid(fluidRegions.size());
+    PtrList<dimensionedScalar> TminrhFluid(fluidRegions.size());
+    PtrList<dimensionedScalar> TmaxrhFluid(fluidRegions.size());
+
+    forAll(fluidRegions, i)
+    {
+        resHeat.set
+        (
+            i,
+            new IOdictionary
+            (
+                IOobject
+                (
+                    "resistiveHeating",
+                    runTime.constant(),
+                    fluidRegions[i],
+                    IOobject::READ_IF_PRESENT,
+                    IOobject::NO_WRITE
+                )
+            )
+        );
+
+        rhFluid.set
+        (
+            i,
+            new dimensionedScalar ("rh", dimensionSet(1, -1, -3, 0, 0, 0, 0), SMALL)
+        );
+
+        if(resHeat[i].found("type"))
+        {
+            typerhFluid.set
+            (
+                i,
+                new word (resHeat[i].lookup("type"))
+            );
+        }
+
+        if(resHeat[i].found("P"))
+        {
+            PrhFluid.set
+            (
+                i,
+                new dimensionedScalar (resHeat[i].lookup("P"))
+            );
+        }
+
+        if(resHeat[i].found("R"))
+        {
+            RrhFluid.set
+            (
+                i,
+                new dimensionedScalar (resHeat[i].lookup("R"))
+            );
+        }
+
+        if(resHeat[i].found("V"))
+        {
+            VrhFluid.set
+            (
+                i,
+                new dimensionedScalar (resHeat[i].lookup("V"))
+            );
+        }
+
+        if(resHeat[i].found("I"))
+        {
+            IrhFluid.set
+            (
+                i,
+                new dimensionedScalar (resHeat[i].lookup("I"))
+            );
+        }
+
+        if(resHeat[i].found("Tmin"))
+        {
+            TminrhFluid.set
+            (
+                i,
+                new dimensionedScalar (resHeat[i].lookup("Tmin"))
+            );
+        }
+
+        if(resHeat[i].found("Tmax"))
+        {
+            TmaxrhFluid.set
+            (
+                i,
+                new dimensionedScalar (resHeat[i].lookup("Tmax"))
+            );
+        }
     }
 
 //------------------- PCM4Foam -> Radiation ------------------//

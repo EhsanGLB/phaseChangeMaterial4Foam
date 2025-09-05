@@ -198,7 +198,7 @@
 
     scalar tOld = 0.0;
 
-//-------------------PCM4Foam-->Heat source------------------//
+//-------------------PCM4Foam -> Heat source------------------//
     PtrList<IOdictionary> heatSource(solidRegions.size());
     PtrList<dimensionedScalar> hsSolid(solidRegions.size());
 
@@ -238,7 +238,7 @@
         }
     }
 
-//-------------------PCM4Foam-->Thermoelectric generator------------------//
+//-------------------PCM4Foam -> Thermoelectric generator------------------//
     PtrList<IOdictionary> thermoelectricGenerator(solidRegions.size());
     PtrList<dimensionedScalar> ZTTEG(solidRegions.size());
     PtrList<dimensionedScalar> SeTEGG(solidRegions.size());

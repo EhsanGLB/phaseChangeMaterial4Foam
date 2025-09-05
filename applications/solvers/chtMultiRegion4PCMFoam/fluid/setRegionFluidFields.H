@@ -149,4 +149,52 @@
     CpEff.correctBoundaryConditions();
     kappaEff.correctBoundaryConditions();
 
+
+    dimensionedScalar& rh = rhFluid[i];
+
+    if (resHeat[i].headerOk())
+    {
+        word& typerh = typerhFluid[i];
+        dimensionedScalar& Prh = PrhFluid[i];
+        dimensionedScalar& Rrh = RrhFluid[i];
+        dimensionedScalar& Vrh = VrhFluid[i];
+        dimensionedScalar& Irh = IrhFluid[i];
+        dimensionedScalar& Tminrh = TminrhFluid[i];
+        dimensionedScalar& Tmaxrh = TmaxrhFluid[i];
+        dimensionedScalar Volrh = sum(fluidRegions[i].V());
+
+        if (typerh == "none")
+        {
+        }
+
+        else if (typerh == "power")
+        {
+            rh = Prh/Volrh;
+        }
+
+        else if (typerh == "voltage")
+        {
+            rh = (Vrh*Vrh/Rrh)/Volrh;
+        }
+
+        else if (typerh == "current")
+        {
+            rh = (Rrh*Irh*Irh)/Volrh;
+        }
+
+        else
+        {
+            WarningInFunction
+                << "Resistive heating type '" << typerh << "' for region " << i
+                << " is not recognized. Options are: none, power, voltage, current."
+                << " Setting rh to 0." << endl;
+            rh = 0;
+        }
+
+Info << "type: " << typerh << endl;
+Info << "rh: " << rh << endl;
+    }
+
+
+
     radiation::radiationModel& rad = radiation[i];

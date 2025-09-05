@@ -145,9 +145,21 @@ void Foam::timeVaryingRobin4PCMFoam::write(Ostream& os) const
 {
     fvPatchScalarField::write(os);
     os.writeKeyword("Kappa") << kappaName_ << token::END_STATEMENT << nl;
-    /*timeSeriesqo_.write(os);
+
+    os.writeKeyword("qo") << nl;
+    os << "        " << token::BEGIN_BLOCK << nl;
+    timeSeriesqo_.write(os);
+    os <<  "        " << token::END_BLOCK << nl;
+
+    os.writeKeyword("ho") << nl;
+    os << "        " << token::BEGIN_BLOCK << nl;
     timeSeriesho_.write(os);
-    timeSeriesTo_.write(os);*/
+    os <<  "        " << token::END_BLOCK << nl;
+
+    os.writeKeyword("To") << nl;
+    os << "        " << token::BEGIN_BLOCK << nl;
+    timeSeriesTo_.write(os);
+    os <<  "        " << token::END_BLOCK << nl;
 
     writeEntry("value", os);
     gradient().writeEntry("gradient", os);
