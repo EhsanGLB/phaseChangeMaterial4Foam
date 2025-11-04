@@ -1074,7 +1074,9 @@
     PtrList<dimensionedScalar> PrhFluid(fluidRegions.size());
     PtrList<dimensionedScalar> RrhFluid(fluidRegions.size());
     PtrList<dimensionedScalar> VrhFluid(fluidRegions.size());
+    PtrList<dimensionedScalar> VmaxrhFluid(fluidRegions.size());
     PtrList<dimensionedScalar> IrhFluid(fluidRegions.size());
+    PtrList<dimensionedScalar> ImaxrhFluid(fluidRegions.size());
     PtrList<dimensionedScalar> TminrhFluid(fluidRegions.size());
     PtrList<dimensionedScalar> TmaxrhFluid(fluidRegions.size());
 
@@ -1138,12 +1140,30 @@
             );
         }
 
+        if(resHeat[i].found("Vmax"))
+        {
+            VmaxrhFluid.set
+            (
+                i,
+                new dimensionedScalar (resHeat[i].lookup("Vmax"))
+            );
+        }
+
         if(resHeat[i].found("I"))
         {
             IrhFluid.set
             (
                 i,
                 new dimensionedScalar (resHeat[i].lookup("I"))
+            );
+        }
+
+        if(resHeat[i].found("Imax"))
+        {
+            ImaxrhFluid.set
+            (
+                i,
+                new dimensionedScalar (resHeat[i].lookup("Imax"))
             );
         }
 

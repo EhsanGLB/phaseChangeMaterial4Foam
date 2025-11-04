@@ -13,6 +13,7 @@ $(derivedDir)/powerLawRadialVelocity4PCMFoam/powerLawRadialVelocity4PCMFoam.C
 $(derivedDir)/timeVaryingRobin4PCMFoam/timeVaryingRobin4PCMFoam.C
 $(derivedDir)/robinLocal4PCMFoam/robinLocal4PCMFoam.C
 $(derivedDir)/timeVaryingMixedRobin4PCMFoam/timeVaryingMixedRobin4PCMFoam.C
+$(derivedDir)/timeVaryingMixedRobinEmissivityAbsorptivityVsTemp4PCMFoam/timeVaryingMixedRobinEmissivityAbsorptivityVsTemp4PCMFoam.C
 
 
 turbulenceModelsDir = turbulenceModels

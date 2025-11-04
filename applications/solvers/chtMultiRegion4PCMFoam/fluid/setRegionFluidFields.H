@@ -155,31 +155,34 @@
     if (resHeat[i].headerOk())
     {
         word& typerh = typerhFluid[i];
-        dimensionedScalar& Prh = PrhFluid[i];
         dimensionedScalar& Rrh = RrhFluid[i];
-        dimensionedScalar& Vrh = VrhFluid[i];
-        dimensionedScalar& Irh = IrhFluid[i];
+        dimensionedScalar& Vmaxrh = VmaxrhFluid[i];
+        dimensionedScalar& Imaxrh = ImaxrhFluid[i];
         dimensionedScalar& Tminrh = TminrhFluid[i];
         dimensionedScalar& Tmaxrh = TmaxrhFluid[i];
         dimensionedScalar Volrh = sum(fluidRegions[i].V());
+        dimensionedScalar Pmaxrh = Vmaxrh*Imaxrh;
+        dimensionedScalar PPrh ("PPrh", dimensionSet(1, 2, -3, 0, 0, 0, 0), SMALL);
 
         if (typerh == "none")
-        {
-        }
+        {}
 
         else if (typerh == "power")
         {
-            rh = Prh/Volrh;
+            dimensionedScalar& Prh = PrhFluid[i];
+            PPrh = Prh;
         }
 
         else if (typerh == "voltage")
         {
-            rh = (Vrh*Vrh/Rrh)/Volrh;
+            dimensionedScalar& Vrh = VrhFluid[i];
+            PPrh = Vrh*Vrh/Rrh;
         }
 
         else if (typerh == "current")
         {
-            rh = (Rrh*Irh*Irh)/Volrh;
+            dimensionedScalar& Irh = IrhFluid[i];
+            PPrh = Rrh*Irh*Irh;
         }
 
         else
@@ -188,11 +191,25 @@
                 << "Resistive heating type '" << typerh << "' for region " << i
                 << " is not recognized. Options are: none, power, voltage, current."
                 << " Setting rh to 0." << endl;
-            rh = 0;
         }
 
-Info << "type: " << typerh << endl;
-Info << "rh: " << rh << endl;
+        if (Tminrh.value() > gMax(T) || gMax(T) > Tmaxrh.value())
+        {
+            rh = dimensionedScalar ("rh", dimensionSet(1, -1, -3, 0, 0, 0, 0), SMALL);
+            Info << "Resistive heating is inactive: " << Tminrh.value() << " < " << gMax(T) << " < " << Tmaxrh.value() << endl;
+        }
+
+        else
+        {
+            Info << "T max: " << gMax(T) << endl;
+            rh = PPrh/Volrh;
+            Info << "Resistive heating is active: " << PPrh.value() << " W or " << rh.value() << " W/m3" << endl;
+        }
+        
+        if (PPrh.value() > Pmaxrh.value())
+        {
+            Info << "Warning: The generated power (" << PPrh.value() << ") is biger than the maximum power (" << Pmaxrh.value() << ")" << endl;
+        }
     }
 
 

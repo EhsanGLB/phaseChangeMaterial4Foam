@@ -1,0 +1,4 @@
+Aug 25, 2025:     hsPMFluid[i][cells[cellI]] = zoneHs.value(); -> add [i] to all tolls
+Sept 3, 2025: add write the timesSeries_ to all in PCM4Foam
+Sept 5, 2025: add ResistiveHeating to cht in PCM4Foam
+Oct 28, 2025: add the emissivityVs Temp to BCs of PCM4Foam
